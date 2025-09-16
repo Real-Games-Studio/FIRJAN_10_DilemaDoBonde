@@ -1,0 +1,39 @@
+using UnityEngine;
+using System.IO;
+
+namespace RealGames
+{
+    public static class JsonLoader
+    {
+        public static AppConfig LoadGameSettings(string jsonFilePath)
+        {
+            if (File.Exists(jsonFilePath))
+            {
+                string json = File.ReadAllText(jsonFilePath);
+                AppConfig settings = JsonUtility.FromJson<AppConfig>(json);
+                return settings;
+            }
+            else
+            {
+                Debug.LogError("JSON file not found at: " + jsonFilePath);
+                return null;
+            }
+        }
+
+        public static DilemmaConfig LoadDilemmaConfig(string jsonFilePath)
+        {
+            if (File.Exists(jsonFilePath))
+            {
+                string json = File.ReadAllText(jsonFilePath);
+                DilemmaConfig config = JsonUtility.FromJson<DilemmaConfig>(json);
+                return config;
+            }
+            else
+            {
+                Debug.LogError("Dilemma config JSON file not found at: " + jsonFilePath);
+                return null;
+            }
+        }
+    }
+
+}

@@ -1,0 +1,85 @@
+{
+  "timeoutSeconds": 60,
+  "profiles": {
+    "realist": {
+      "name": "O realista",
+      "description": "Você toma decisões baseadas na lógica e no pragmatismo, priorizando resultados práticos e eficiência."
+    },
+    "empathetic": {
+      "name": "O empático", 
+      "description": "Você toma decisões baseadas na compaixão e no cuidado com os outros, priorizando o bem-estar humano."
+    }
+  },
+  "dilemmas": [
+    {
+      "id": 1,
+      "title": "O código invisível",
+      "description": "Um sistema prevê comportamentos com uma precisão impressionante. Mas quanto mais o aprendizado mais preciso fica, mais opaco se torna os algoritmos que o regula. Os dados podem salvar vidas ou violar privacidades.",
+      "question": "Qual limite você define?",
+      "optionA": {
+        "text": "Mantém o sistema aprendendo ao máximo, priorizando precisão e resultados.",
+        "type": "realist"
+      },
+      "optionB": {
+        "text": "Restringe o código para proteger a privacidade, mesmo que isso reduza a eficácia.",
+        "type": "empathetic"
+      }
+    },
+    {
+      "id": 2,
+      "title": "O fornecedor e a urgência",
+      "description": "O fornecedor atual está atrasando as entregas e a qualidade tem crescido bastante em padrão. Um novo fornecedor promete entregas rápidas, mas nunca trabalhou conosco e a cobra mais barato.",
+      "question": "O que vale mais neste momento: a confiança ou a velocidade?",
+      "optionA": {
+        "text": "A) Manter o fornecedor atual, garantindo qualidade e padrão, porém com atraso nas entregas.",
+        "type": "empathetic"
+      },
+      "optionB": {
+        "text": "B) Trocar para o novo fornecedor e acelerar as entregas.",
+        "type": "realist"
+      }
+    },
+    {
+      "id": 3,
+      "title": "A verdade que vira notícia",
+      "description": "Temos informações que podem mudar o rumo do projeto, mas não conseguimos confirmar todos os fatos. Se divulgarmos agora, ganhamos vantagem. Se esperamos, talvez percamos a relevância.",
+      "question": "Qual decisão tomar neste momento?",
+      "optionA": {
+        "text": "Divulgue imediatamente, apostando no impacto e na vantagem estratégica.",
+        "type": "realist"
+      },
+      "optionB": {
+        "text": "Esperar por confirmação, mesmo que isso signifique perder o momento.",
+        "type": "empathetic"
+      }
+    },
+    {
+      "id": 4,
+      "title": "O investimento em aprendizado",
+      "description": "Há verba para apenas um programa de desenvolvimento neste semestre. Podemos investir num plano de liderança ou um curso de transformação tecnológica.",
+      "question": "Qual prioriza?",
+      "optionA": {
+        "text": "Curso de liderança, para fortalecer a gestão de pessoas.",
+        "type": "empathetic"
+      },
+      "optionB": {
+        "text": "Inovação digital, para acelerar transformação tecnológica.",
+        "type": "realist"
+      }
+    },
+    {
+      "id": 5,
+      "title": "Lançamento de produto",
+      "description": "Um produto inovador pode revolucionar o mercado, mas ainda apresenta instabilidades. Lançá-lo agora nos coloca à frente, mas também nos expõe. Aguardar pode nos fazer perder a liderança. É um jogo entre pioneirismo e segurança.",
+      "question": "O que fazemos nesta situação?",
+      "optionA": {
+        "text": "Lança agora para aproveitar o pioneirismo e conquistar o mercado.",
+        "type": "realist"
+      },
+      "optionB": {
+        "text": "Segura o lançamento até corrigir as falhas, priorizando segurança e estabilidade.",
+        "type": "empathetic"
+      }
+    }
+  ]
+}

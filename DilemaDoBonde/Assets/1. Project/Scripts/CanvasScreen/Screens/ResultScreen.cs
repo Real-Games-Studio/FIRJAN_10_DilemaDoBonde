@@ -1,0 +1,53 @@
+using UnityEngine;
+using TMPro;
+using RealGames;
+using System.Collections;
+
+public class ResultScreen : CanvasScreen
+{
+    [Header("UI References")]
+    public TMP_Text titleText;
+    public TMP_Text profileNameText;
+    public TMP_Text profileDescriptionText;
+    public TMP_Text instructionText;
+    
+    [Header("Settings")]
+    public float autoReturnTime = 10f;
+    
+    public override void TurnOn()
+    {
+        base.TurnOn();
+        SetupResultScreen();
+        StartCoroutine(AutoReturnToIdle());
+    }
+    
+    void SetupResultScreen()
+    {
+        if (DilemmaGameController.Instance == null) return;
+        
+        ProfileInfo finalProfile = DilemmaGameController.Instance.GetFinalProfile();
+        if (finalProfile == null) return;
+        
+        if (titleText != null)
+            titleText.text = "SEU PERFIL";
+            
+        if (profileNameText != null)
+            profileNameText.text = finalProfile.name;
+            
+        if (profileDescriptionText != null)
+            profileDescriptionText.text = finalProfile.description;
+            
+        if (instructionText != null)
+            instructionText.text = "Obrigado por participar!";
+    }
+    
+    IEnumerator AutoReturnToIdle()
+    {
+        yield return new WaitForSeconds(autoReturnTime);
+        
+        if (DilemmaGameController.Instance != null)
+        {
+            DilemmaGameController.Instance.ResetToIdle();
+        }
+    }
+}

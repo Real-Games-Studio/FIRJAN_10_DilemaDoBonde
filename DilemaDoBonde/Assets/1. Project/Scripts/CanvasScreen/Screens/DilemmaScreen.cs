@@ -11,11 +11,18 @@ public class DilemmaScreen : CanvasScreen
     public TMP_Text optionAText;
     public TMP_Text optionBText;
     public TMP_Text instructionText;
+    public TMP_Text timeRemainingText;
+    public TMP_Text progressText;
     
     public override void TurnOn()
     {
         base.TurnOn();
         SetupDilemmaScreen();
+    }
+    
+    void Update()
+    {
+        UpdateTimerDisplay();
     }
     
     void SetupDilemmaScreen()
@@ -42,5 +49,34 @@ public class DilemmaScreen : CanvasScreen
             
         if (instructionText != null)
             instructionText.text = "Pressione 1 para A ou 2 para B";
+            
+        UpdateProgressDisplay();
+    }
+    
+    void UpdateTimerDisplay()
+    {
+        if (timeRemainingText != null && DilemmaGameController.Instance != null)
+        {
+            float remainingTime = DilemmaGameController.Instance.GetRemainingTime();
+            if (remainingTime > 0)
+            {
+                int seconds = Mathf.CeilToInt(remainingTime);
+                timeRemainingText.text = $"{seconds}s";
+            }
+            else
+            {
+                timeRemainingText.text = "Tempo esgotado!";
+            }
+        }
+    }
+    
+    void UpdateProgressDisplay()
+    {
+        if (progressText != null && DilemmaGameController.Instance != null)
+        {
+            int currentIndex = DilemmaGameController.Instance.currentDilemmaIndex + 1;
+            int totalDilemmas = DilemmaGameController.Instance.GetTotalDilemmas();
+            progressText.text = $"{currentIndex}/{totalDilemmas}";
+        }
     }
 }

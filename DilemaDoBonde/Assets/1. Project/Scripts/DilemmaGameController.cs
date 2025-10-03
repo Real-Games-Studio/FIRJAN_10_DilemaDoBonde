@@ -245,4 +245,18 @@ public class DilemmaGameController : MonoBehaviour
     {
         return dilemmaConfig != null ? dilemmaConfig.resultDisplayTime : 10f;
     }
+    
+    public float GetRemainingTime()
+    {
+        if (isGameActive)
+        {
+            return Mathf.Max(0f, timeoutTime - currentTimer);
+        }
+        return 0f;
+    }
+    
+    public int GetTotalDilemmas()
+    {
+        return dilemmaConfig != null ? dilemmaConfig.dilemmas.Length : 0;
+    }
 }

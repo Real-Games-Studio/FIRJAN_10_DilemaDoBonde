@@ -12,7 +12,7 @@ public class ResultScreen : CanvasScreen
     public TMP_Text instructionText;
     
     [Header("Settings")]
-    public float autoReturnTime = 10f;
+    [SerializeField] private float autoReturnTime = 10f; // Default fallback value
     
     public override void TurnOn()
     {
@@ -43,6 +43,12 @@ public class ResultScreen : CanvasScreen
     
     IEnumerator AutoReturnToIdle()
     {
+        // Get the result display time from the configuration
+        if (DilemmaGameController.Instance != null)
+        {
+            autoReturnTime = DilemmaGameController.Instance.GetResultDisplayTime();
+        }
+        
         yield return new WaitForSeconds(autoReturnTime);
         
         if (DilemmaGameController.Instance != null)

@@ -1,5 +1,7 @@
 {
   "timeoutSeconds": 60,
+  "choiceDisplayTime": 5,
+  "resultDisplayTime": 10,
   "profiles": {
     "realist": {
       "name": "O realista",

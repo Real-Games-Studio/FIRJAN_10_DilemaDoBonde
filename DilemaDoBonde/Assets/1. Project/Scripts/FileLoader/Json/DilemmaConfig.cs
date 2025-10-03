@@ -4,6 +4,8 @@ namespace RealGames
     public class DilemmaConfig
     {
         public int timeoutSeconds;
+        public float choiceDisplayTime;
+        public float resultDisplayTime;
         public ProfilesData profiles;
         public DilemmaData[] dilemmas;
     }

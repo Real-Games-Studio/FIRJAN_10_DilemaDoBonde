@@ -20,8 +20,8 @@ public class DilemmaGameController : MonoBehaviour
     public string resultScreenName = "ResultScreen";
     
     [Header("Timing")]
-    public float choiceDisplayTime = 5f;
-    public float timeoutTime = 60f;
+    [SerializeField] private float choiceDisplayTime = 5f; // Default fallback value
+    [SerializeField] private float timeoutTime = 60f; // Default fallback value
     
     private float currentTimer = 0f;
     private bool isGameActive = false;
@@ -61,7 +61,8 @@ public class DilemmaGameController : MonoBehaviour
         if (dilemmaConfig != null)
         {
             timeoutTime = dilemmaConfig.timeoutSeconds;
-            Debug.Log($"Dilemma config loaded successfully. Timeout: {timeoutTime}s, Dilemmas: {dilemmaConfig.dilemmas.Length}");
+            choiceDisplayTime = dilemmaConfig.choiceDisplayTime;
+            Debug.Log($"Dilemma config loaded successfully. Timeout: {timeoutTime}s, Choice Display: {choiceDisplayTime}s, Result Display: {dilemmaConfig.resultDisplayTime}s, Dilemmas: {dilemmaConfig.dilemmas.Length}");
         }
         else
         {
@@ -238,5 +239,10 @@ public class DilemmaGameController : MonoBehaviour
             return "Sua escolha foi registrada";
         }
         return "";
+    }
+    
+    public float GetResultDisplayTime()
+    {
+        return dilemmaConfig != null ? dilemmaConfig.resultDisplayTime : 10f;
     }
 }

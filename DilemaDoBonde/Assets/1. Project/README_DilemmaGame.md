@@ -17,9 +17,11 @@ Este sistema implementa um jogo interativo de dilemas éticos que será usado em
 
 ### Configuração JSON
 O arquivo `/StreamingAssets/config.json` contém:
-- Timeout em segundos (60s por padrão)
-- 5 dilemas com suas opções A e B
-- Perfis "O realista" e "O empático"
+- **timeoutSeconds**: Timeout em segundos (60s por padrão)
+- **choiceDisplayTime**: Tempo de exibição da tela de confirmação da escolha (5s por padrão)
+- **resultDisplayTime**: Tempo de exibição da tela de resultado final (10s por padrão)
+- **profiles**: Perfis "O realista" e "O empático" com nomes e descrições
+- **dilemmas**: Array com os 5 dilemas e suas opções A e B
 
 ## Fluxo do Jogo
 
@@ -46,7 +48,8 @@ O arquivo `/StreamingAssets/config.json` contém:
 - Mais respostas tipo "realist" = Perfil "O realista"
 - Mais respostas tipo "empathetic" = Perfil "O empático"
 - Timeout de 60 segundos volta para tela inicial
-- Tela de resultado retorna automaticamente após 10 segundos
+- Tela de confirmação da escolha exibe por 5 segundos (configurável)
+- Tela de resultado retorna automaticamente após 10 segundos (configurável)
 
 ## Inputs Suportados
 

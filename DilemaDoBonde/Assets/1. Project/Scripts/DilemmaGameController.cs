@@ -228,8 +228,8 @@ public class DilemmaGameController : MonoBehaviour
     
     void RestartGame()
     {
-        Debug.Log("Restarting game from result screen");
-        StartGame();
+        Debug.Log("Restarting game from result screen - returning to idle");
+        ResetToIdle();
     }
     
     public void ResetToIdle()

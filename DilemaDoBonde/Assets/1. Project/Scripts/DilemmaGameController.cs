@@ -80,6 +80,10 @@ public class DilemmaGameController : MonoBehaviour
         {
             OnNumberInput(2);
         }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            OnNumberInput(3);
+        }
     }
     
     void HandleTimeout()
@@ -103,7 +107,7 @@ public class DilemmaGameController : MonoBehaviour
         
         if (currentScreen == idleScreenName)
         {
-            if (number == 1 || number == 2)
+            if (number == 1 || number == 2 || number == 3)
             {
                 StartGame();
             }
@@ -117,6 +121,22 @@ public class DilemmaGameController : MonoBehaviour
             else if (number == 2)
             {
                 AnswerDilemma(false); // Option B
+            }
+        }
+        else if (currentScreen == choiceScreenName)
+        {
+            if (number == 3)
+            {
+                // Skip to next dilemma manually
+                SkipToNextDilemma();
+            }
+        }
+        else if (currentScreen == resultScreenName)
+        {
+            if (number == 3)
+            {
+                // Restart the game
+                RestartGame();
             }
         }
     }
@@ -195,6 +215,21 @@ public class DilemmaGameController : MonoBehaviour
         
         string profileType = realistAnswers > empatheticAnswers ? "realist" : "empathetic";
         Debug.Log($"Game finished. Realist: {realistAnswers}, Empathetic: {empatheticAnswers}, Result: {profileType}");
+    }
+    
+    void SkipToNextDilemma()
+    {
+        Debug.Log("Skipping to next dilemma manually");
+        StopAllCoroutines(); // Stop the automatic wait timer
+        
+        currentDilemmaIndex++;
+        ShowCurrentDilemma();
+    }
+    
+    void RestartGame()
+    {
+        Debug.Log("Restarting game from result screen");
+        StartGame();
     }
     
     public void ResetToIdle()

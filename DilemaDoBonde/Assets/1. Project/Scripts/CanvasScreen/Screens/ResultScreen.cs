@@ -10,6 +10,7 @@ public class ResultScreen : CanvasScreen
     public TMP_Text profileNameText;
     public TMP_Text profileDescriptionText;
     public TMP_Text instructionText;
+    public TMP_Text restartInstructionText;
     
     [Header("Settings")]
     [SerializeField] private float autoReturnTime = 10f; // Default fallback value
@@ -39,6 +40,9 @@ public class ResultScreen : CanvasScreen
             
         if (instructionText != null)
             instructionText.text = "Obrigado por participar!";
+            
+        if (restartInstructionText != null)
+            restartInstructionText.text = "Pressione 3 para jogar novamente";
     }
     
     IEnumerator AutoReturnToIdle()

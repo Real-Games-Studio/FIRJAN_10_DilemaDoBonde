@@ -19,6 +19,6 @@ public class IdleScreen : CanvasScreen
             titleText.text = "DILEMA DO BONDE";
             
         if (instructionText != null)
-            instructionText.text = "Pressione 1 ou 2 para começar";
+            instructionText.text = "Pressione 1, 2 ou 3 para começar";
     }
 }

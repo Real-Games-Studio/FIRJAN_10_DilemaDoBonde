@@ -6,6 +6,7 @@ public class ChoiceScreen : CanvasScreen
     [Header("UI References")]
     public TMP_Text choiceConfirmationText;
     public TMP_Text waitingText;
+    public TMP_Text skipInstructionText;
     
     public override void TurnOn()
     {
@@ -24,5 +25,8 @@ public class ChoiceScreen : CanvasScreen
             
         if (waitingText != null)
             waitingText.text = "Preparando próximo dilema...";
+            
+        if (skipInstructionText != null)
+            skipInstructionText.text = "Pressione 3 para pular para o próximo dilema";
     }
 }

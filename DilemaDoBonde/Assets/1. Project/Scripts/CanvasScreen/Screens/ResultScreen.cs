@@ -15,11 +15,28 @@ public class ResultScreen : CanvasScreen
     [Header("Settings")]
     [SerializeField] private float autoReturnTime = 10f; // Default fallback value
     
+    public override void OnEnable()
+    {
+        base.OnEnable();
+        LanguageManager.OnLanguageChanged += RefreshTexts;
+    }
+    
+    public override void OnDisable()
+    {
+        base.OnDisable();
+        LanguageManager.OnLanguageChanged -= RefreshTexts;
+    }
+    
     public override void TurnOn()
     {
         base.TurnOn();
         SetupResultScreen();
         StartCoroutine(AutoReturnToIdle());
+    }
+    
+    void RefreshTexts()
+    {
+        SetupResultScreen();
     }
     
     void SetupResultScreen()
@@ -30,19 +47,34 @@ public class ResultScreen : CanvasScreen
         if (finalProfile == null) return;
         
         if (titleText != null)
-            titleText.text = "SEU PERFIL";
+        {
+            if (LanguageManager.Instance != null && LanguageManager.Instance.IsEnglish())
+                titleText.text = "YOUR PROFILE";
+            else
+                titleText.text = "SEU PERFIL";
+        }
             
         if (profileNameText != null)
-            profileNameText.text = finalProfile.name;
+            profileNameText.text = finalProfile.name.GetText();
             
         if (profileDescriptionText != null)
-            profileDescriptionText.text = finalProfile.description;
+            profileDescriptionText.text = finalProfile.description.GetText();
             
         if (instructionText != null)
-            instructionText.text = "Obrigado por participar!";
+        {
+            if (LanguageManager.Instance != null && LanguageManager.Instance.IsEnglish())
+                instructionText.text = "Thank you for participating!";
+            else
+                instructionText.text = "Obrigado por participar!";
+        }
             
         if (restartInstructionText != null)
-            restartInstructionText.text = "Pressione 3 para jogar novamente";
+        {
+            if (LanguageManager.Instance != null && LanguageManager.Instance.IsEnglish())
+                restartInstructionText.text = "Press 3 to play again";
+            else
+                restartInstructionText.text = "Pressione 3 para jogar novamente";
+        }
     }
     
     IEnumerator AutoReturnToIdle()

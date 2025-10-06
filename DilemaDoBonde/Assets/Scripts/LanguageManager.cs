@@ -21,6 +21,7 @@ public class LanguageManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            StaticTextManager.Initialize();
         }
         else
         {

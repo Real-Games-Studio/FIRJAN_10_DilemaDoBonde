@@ -1,0 +1,25 @@
+{
+  "staticTexts": [
+    {
+      "id": "title",
+      "textPt": "Dilema do bonde",
+      "textEn": "Bond dilema"
+    },
+    {
+      "id": "cta_text",
+      "textPt": "Pressione o botão para começar",
+      "textEn": "Press the botton to start"
+    },
+    {
+      "id": "record_text",
+      "textPt": "Opção registrada",
+      "textEn": "Choice registred"
+    },
+    {
+      "id": "results_text",
+      "textPt": "Resultado",
+      "textEn": "Result"
+    }
+
+  ]
+}

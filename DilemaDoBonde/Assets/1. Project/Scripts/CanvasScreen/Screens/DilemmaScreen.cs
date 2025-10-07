@@ -8,8 +8,16 @@ public class DilemmaScreen : CanvasScreen
     public TMP_Text titleText;
     public TMP_Text descriptionText;
     public TMP_Text questionText;
-    public TMP_Text optionAText;
-    public TMP_Text optionBText;
+    public TMP_Text leftOptionText;   // New: text for left position
+    public TMP_Text rightOptionText;  // New: text for right position
+    public TMP_Text leftOptionLabel;  // New: displays A or B for left option
+    public TMP_Text rightOptionLabel; // New: displays A or B for right option
+    
+    [Header("Legacy UI References (deprecated)")]
+    public TMP_Text optionAText;      // Legacy: kept for backward compatibility
+    public TMP_Text optionBText;      // Legacy: kept for backward compatibility
+    
+    [Header("Other UI References")]
     public TMP_Text instructionText;
     public TMP_Text timeRemainingText;
     public TMP_Text progressText;
@@ -57,7 +65,26 @@ public class DilemmaScreen : CanvasScreen
             
         if (questionText != null)
             questionText.text = currentDilemma.question.GetText();
+        
+        // Use randomized positions for options
+        DilemmaOption leftOption = DilemmaGameController.Instance.GetLeftOption();
+        DilemmaOption rightOption = DilemmaGameController.Instance.GetRightOption();
+        
+        // Update new position-based text fields
+        if (leftOptionText != null && leftOption != null)
+            leftOptionText.text = leftOption.text.GetText();
             
+        if (rightOptionText != null && rightOption != null)
+            rightOptionText.text = rightOption.text.GetText();
+        
+        // Update option labels (A or B)
+        if (leftOptionLabel != null)
+            leftOptionLabel.text = DilemmaGameController.Instance.GetLeftOptionLabel();
+            
+        if (rightOptionLabel != null)
+            rightOptionLabel.text = DilemmaGameController.Instance.GetRightOptionLabel();
+        
+        // Legacy support: Update old optionAText and optionBText if they exist
         if (optionAText != null)
             optionAText.text = currentDilemma.optionA.text.GetText();
             
@@ -67,9 +94,9 @@ public class DilemmaScreen : CanvasScreen
         if (instructionText != null)
         {
             if (LanguageManager.Instance != null && LanguageManager.Instance.IsEnglish())
-                instructionText.text = "Press 1 for A or 2 for B";
+                instructionText.text = "Press 1 for left or 2 for right";
             else
-                instructionText.text = "Pressione 1 para A ou 2 para B";
+                instructionText.text = "Pressione 1 para esquerda ou 2 para direita";
         }
             
         UpdateProgressDisplay();

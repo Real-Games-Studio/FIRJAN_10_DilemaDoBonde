@@ -12,6 +12,7 @@ public class DilemmaGameController : MonoBehaviour
     public int currentDilemmaIndex = 0;
     public int realistAnswers = 0;
     public int empatheticAnswers = 0;
+    public bool isOptionAOnLeft = true; // Track if option A is on the left (position 1)
     
     [Header("Screen Names")]
     public string idleScreenName = "IdleScreen";
@@ -116,11 +117,15 @@ public class DilemmaGameController : MonoBehaviour
         {
             if (number == 1)
             {
-                AnswerDilemma(true); // Option A
+                // Player pressed 1 - determine which option this corresponds to
+                bool chooseOptionA = isOptionAOnLeft; // If A is on left, 1 = A, otherwise 1 = B
+                AnswerDilemma(chooseOptionA);
             }
             else if (number == 2)
             {
-                AnswerDilemma(false); // Option B
+                // Player pressed 2 - determine which option this corresponds to  
+                bool chooseOptionA = !isOptionAOnLeft; // If A is on left, 2 = B, otherwise 2 = A
+                AnswerDilemma(chooseOptionA);
             }
         }
         else if (currentScreen == choiceScreenName)
@@ -157,8 +162,11 @@ public class DilemmaGameController : MonoBehaviour
     {
         if (currentDilemmaIndex < dilemmaConfig.dilemmas.Length)
         {
+            // Randomize option positions for each new dilemma
+            RandomizeOptionPositions();
+            
             ScreenManager.SetCallScreen(dilemmaScreenName);
-            Debug.Log($"Showing dilemma {currentDilemmaIndex + 1}: {dilemmaConfig.dilemmas[currentDilemmaIndex].title}");
+            Debug.Log($"Showing dilemma {currentDilemmaIndex + 1}: {dilemmaConfig.dilemmas[currentDilemmaIndex].title.GetText()} - Option A on {(isOptionAOnLeft ? "left (1)" : "right (2)")}");
         }
         else
         {
@@ -293,5 +301,50 @@ public class DilemmaGameController : MonoBehaviour
     public int GetTotalDilemmas()
     {
         return dilemmaConfig != null ? dilemmaConfig.dilemmas.Length : 0;
+    }
+    
+    /// <summary>
+    /// Randomizes the positions of options A and B for the current dilemma
+    /// </summary>
+    private void RandomizeOptionPositions()
+    {
+        // 50% chance for option A to be on the left (position 1), 50% chance on the right (position 2)
+        isOptionAOnLeft = Random.Range(0f, 1f) < 0.5f;
+    }
+    
+    /// <summary>
+    /// Gets the option that should be displayed on the left (position 1)
+    /// </summary>
+    public DilemmaOption GetLeftOption()
+    {
+        if (currentDilemmaIndex >= dilemmaConfig.dilemmas.Length) return null;
+        DilemmaData currentDilemma = dilemmaConfig.dilemmas[currentDilemmaIndex];
+        return isOptionAOnLeft ? currentDilemma.optionA : currentDilemma.optionB;
+    }
+    
+    /// <summary>
+    /// Gets the option that should be displayed on the right (position 2)
+    /// </summary>
+    public DilemmaOption GetRightOption()
+    {
+        if (currentDilemmaIndex >= dilemmaConfig.dilemmas.Length) return null;
+        DilemmaData currentDilemma = dilemmaConfig.dilemmas[currentDilemmaIndex];
+        return isOptionAOnLeft ? currentDilemma.optionB : currentDilemma.optionA;
+    }
+    
+    /// <summary>
+    /// Gets the label for the left option (A or B)
+    /// </summary>
+    public string GetLeftOptionLabel()
+    {
+        return isOptionAOnLeft ? "A" : "B";
+    }
+    
+    /// <summary>
+    /// Gets the label for the right option (A or B)
+    /// </summary>
+    public string GetRightOptionLabel()
+    {
+        return isOptionAOnLeft ? "B" : "A";
     }
 }

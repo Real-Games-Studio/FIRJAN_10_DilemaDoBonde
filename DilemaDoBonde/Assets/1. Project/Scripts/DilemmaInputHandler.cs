@@ -9,7 +9,7 @@ public class DilemmaInputHandler : MonoBehaviour
     
     void HandleKeyboardInput()
     {
-        // Handle number keys 1 and 2
+        // Handle number keys 1, 2, and 3
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             OnNumberPressed(1);
@@ -17,6 +17,10 @@ public class DilemmaInputHandler : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             OnNumberPressed(2);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            OnNumberPressed(3);
         }
         
         // Also handle keypad numbers
@@ -28,23 +32,38 @@ public class DilemmaInputHandler : MonoBehaviour
         {
             OnNumberPressed(2);
         }
+        else if (Input.GetKeyDown(KeyCode.Keypad3))
+        {
+            OnNumberPressed(3);
+        }
+        
+        // Handle Fire inputs (Fire1 = Left Ctrl/Mouse0, Fire2 = Left Alt/Mouse1, Fire3 = Left Shift/Mouse2)
+        if (Input.GetButtonDown("Fire1"))
+        {
+            OnNumberPressed(1);
+        }
+        else if (Input.GetButtonDown("Fire2"))
+        {
+            OnNumberPressed(2);
+        }
+        else if (Input.GetButtonDown("Fire3"))
+        {
+            OnNumberPressed(3);
+        }
     }
     
     public void OnNumberPressed(int number)
     {
-        Debug.Log($"Number {number} pressed");
-        
         // Reset inactive timer in ScreenCanvasController
         if (ScreenCanvasController.instance != null)
         {
             ScreenCanvasController.instance.inactiveTimer = 0;
         }
         
-        // Let DilemmaGameController handle the input logic
+        // Delegate input handling to DilemmaGameController
         if (DilemmaGameController.Instance != null)
         {
-            // The DilemmaGameController already handles this in its Update method
-            // This is just to ensure the input is properly detected
+            DilemmaGameController.Instance.OnNumberInput(number);
         }
     }
 }

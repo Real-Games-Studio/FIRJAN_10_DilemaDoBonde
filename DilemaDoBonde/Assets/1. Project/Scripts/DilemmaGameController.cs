@@ -50,7 +50,6 @@ public class DilemmaGameController : MonoBehaviour
     
     void Update()
     {
-        HandleInput();
         HandleTimeout();
     }
     
@@ -71,22 +70,6 @@ public class DilemmaGameController : MonoBehaviour
         }
     }
     
-    void HandleInput()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            OnNumberInput(1);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            OnNumberInput(2);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            OnNumberInput(3);
-        }
-    }
-    
     void HandleTimeout()
     {
         if (isGameActive)
@@ -100,7 +83,7 @@ public class DilemmaGameController : MonoBehaviour
         }
     }
     
-    void OnNumberInput(int number)
+    public void OnNumberInput(int number)
     {
         currentTimer = 0f;
         

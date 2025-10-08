@@ -526,6 +526,74 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 108800964}
   m_CullTransparentMesh: 1
+--- !u!1001 &121324103
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1821707466315993046, guid: 4ccf58ddc1a4ae9488eb8f1cf750b130, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1821707466315993046, guid: 4ccf58ddc1a4ae9488eb8f1cf750b130, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1821707466315993046, guid: 4ccf58ddc1a4ae9488eb8f1cf750b130, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1821707466315993046, guid: 4ccf58ddc1a4ae9488eb8f1cf750b130, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1821707466315993046, guid: 4ccf58ddc1a4ae9488eb8f1cf750b130, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1821707466315993046, guid: 4ccf58ddc1a4ae9488eb8f1cf750b130, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1821707466315993046, guid: 4ccf58ddc1a4ae9488eb8f1cf750b130, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1821707466315993046, guid: 4ccf58ddc1a4ae9488eb8f1cf750b130, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1821707466315993046, guid: 4ccf58ddc1a4ae9488eb8f1cf750b130, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1821707466315993046, guid: 4ccf58ddc1a4ae9488eb8f1cf750b130, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6771630112835425676, guid: 4ccf58ddc1a4ae9488eb8f1cf750b130, type: 3}
+      propertyPath: m_Name
+      value: '[Adicionar na Cena] Server'
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4ccf58ddc1a4ae9488eb8f1cf750b130, type: 3}
+--- !u!114 &121324104 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9139395376421946703, guid: 4ccf58ddc1a4ae9488eb8f1cf750b130, type: 3}
+  m_PrefabInstance: {fileID: 121324103}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 455f510067344d489a6ecdb6df7ba704, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &194001337
 GameObject:
   m_ObjectHideFlags: 0
@@ -851,6 +919,7 @@ MonoBehaviour:
   currentDilemmaIndex: 0
   realistAnswers: 0
   empatheticAnswers: 0
+  isOptionAOnLeft: 1
   idleScreenName: IdleScreen
   dilemmaScreenName: DilemmaScreen
   choiceScreenName: ChoiceScreen
@@ -2441,6 +2510,7 @@ MonoBehaviour:
   profileDescriptionText: {fileID: 597669028}
   instructionText: {fileID: 0}
   restartInstructionText: {fileID: 0}
+  nfcInstructionText: {fileID: 0}
   autoReturnTime: 10
 --- !u!225 &1313244343
 CanvasGroup:
@@ -2732,6 +2802,10 @@ MonoBehaviour:
   titleText: {fileID: 194001339}
   descriptionText: {fileID: 2101528996}
   questionText: {fileID: 518099880}
+  leftOptionText: {fileID: 0}
+  rightOptionText: {fileID: 0}
+  leftOptionLabel: {fileID: 0}
+  rightOptionLabel: {fileID: 0}
   optionAText: {fileID: 927633731}
   optionBText: {fileID: 1099629670}
   instructionText: {fileID: 0}
@@ -3455,6 +3529,109 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1730455820}
   m_CullTransparentMesh: 1
+--- !u!1001 &1860754374
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3859287491331945486, guid: 70fbc4c106242b94fab8b822d851bafd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3859287491331945486, guid: 70fbc4c106242b94fab8b822d851bafd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3859287491331945486, guid: 70fbc4c106242b94fab8b822d851bafd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3859287491331945486, guid: 70fbc4c106242b94fab8b822d851bafd, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3859287491331945486, guid: 70fbc4c106242b94fab8b822d851bafd, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3859287491331945486, guid: 70fbc4c106242b94fab8b822d851bafd, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3859287491331945486, guid: 70fbc4c106242b94fab8b822d851bafd, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3859287491331945486, guid: 70fbc4c106242b94fab8b822d851bafd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3859287491331945486, guid: 70fbc4c106242b94fab8b822d851bafd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3859287491331945486, guid: 70fbc4c106242b94fab8b822d851bafd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6950869784751064817, guid: 70fbc4c106242b94fab8b822d851bafd, type: 3}
+      propertyPath: m_Name
+      value: '[Adicionar na Cena] NFC'
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6950869784751064817, guid: 70fbc4c106242b94fab8b822d851bafd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1860754377}
+  m_SourcePrefab: {fileID: 100100000, guid: 70fbc4c106242b94fab8b822d851bafd, type: 3}
+--- !u!1 &1860754375 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6950869784751064817, guid: 70fbc4c106242b94fab8b822d851bafd, type: 3}
+  m_PrefabInstance: {fileID: 1860754374}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1860754376 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8452856788087629536, guid: 70fbc4c106242b94fab8b822d851bafd, type: 3}
+  m_PrefabInstance: {fileID: 1860754374}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1860754375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77226fa7156b47a180f68a0e3563942a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1860754377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1860754375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dc554bf1f519b14db6f8879c3391924, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nfcReceiver: {fileID: 1860754376}
+  serverCommunication: {fileID: 121324104}
+  serverIP: 192.168.0.185
+  serverPort: 8080
+  gameId: 10
+  nfcPromptPanel: {fileID: 0}
+  nfcStatusText: {fileID: 0}
+  nfcInstructionText: {fileID: 0}
+  skipNFCButton: {fileID: 0}
+  realistLogicalReasoning: 9
+  realistSelfAwareness: 5
+  realistDecisionMaking: 6
+  empatheticLogicalReasoning: 8
+  empatheticSelfAwareness: 6
+  empatheticDecisionMaking: 6
 --- !u!1 &1892538485
 GameObject:
   m_ObjectHideFlags: 0
@@ -4164,3 +4341,5 @@ SceneRoots:
   - {fileID: 1951961634}
   - {fileID: 444237918}
   - {fileID: 1648920615}
+  - {fileID: 121324103}
+  - {fileID: 1860754374}

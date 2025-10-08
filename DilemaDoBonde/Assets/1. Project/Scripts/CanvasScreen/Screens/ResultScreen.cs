@@ -11,6 +11,7 @@ public class ResultScreen : CanvasScreen
     public TMP_Text profileDescriptionText;
     public TMP_Text instructionText;
     public TMP_Text restartInstructionText;
+    public TMP_Text nfcInstructionText;
     
     [Header("Settings")]
     [SerializeField] private float autoReturnTime = 10f; // Default fallback value
@@ -75,6 +76,14 @@ public class ResultScreen : CanvasScreen
             else
                 restartInstructionText.text = "Pressione 3 para jogar novamente";
         }
+        
+        if (nfcInstructionText != null)
+        {
+            if (LanguageManager.Instance != null && LanguageManager.Instance.IsEnglish())
+                nfcInstructionText.text = "Press 4 to activate NFC or use your NFC card to save your score!";
+            else
+                nfcInstructionText.text = "Pressione 4 para ativar NFC ou use seu cartão NFC para salvar sua pontuação!";
+        }
     }
     
     IEnumerator AutoReturnToIdle()
@@ -85,7 +94,16 @@ public class ResultScreen : CanvasScreen
             autoReturnTime = DilemmaGameController.Instance.GetResultDisplayTime();
         }
         
-        yield return new WaitForSeconds(autoReturnTime);
+        // Aguardar 3 segundos antes de mostrar a opção NFC
+        yield return new WaitForSeconds(3f);
+        
+        // Ativar sessão NFC para permitir que o jogador salve sua pontuação
+        if (NFCGameManager.Instance != null)
+        {
+            NFCGameManager.Instance.StartNFCSession();
+        }
+        
+        yield return new WaitForSeconds(autoReturnTime - 3f);
         
         if (DilemmaGameController.Instance != null)
         {

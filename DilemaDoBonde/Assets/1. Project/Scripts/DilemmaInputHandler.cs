@@ -23,6 +23,12 @@ public class DilemmaInputHandler : MonoBehaviour
             OnNumberPressed(3);
         }
         
+        // Handle key 4 for NFC activation on result screen
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            OnNumberPressed(4);
+        }
+        
         // Also handle keypad numbers
         if (Input.GetKeyDown(KeyCode.Keypad1))
         {
@@ -35,6 +41,10 @@ public class DilemmaInputHandler : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Keypad3))
         {
             OnNumberPressed(3);
+        }
+        else if (Input.GetKeyDown(KeyCode.Keypad4))
+        {
+            OnNumberPressed(4);
         }
         
         // Handle Fire inputs (Fire1 = Left Ctrl/Mouse0, Fire2 = Left Alt/Mouse1, Fire3 = Left Shift/Mouse2)

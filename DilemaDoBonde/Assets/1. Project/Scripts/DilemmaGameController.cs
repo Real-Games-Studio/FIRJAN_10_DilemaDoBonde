@@ -126,6 +126,14 @@ public class DilemmaGameController : MonoBehaviour
                 // Restart the game
                 RestartGame();
             }
+            else if (number == 4)
+            {
+                // Activate NFC session manually
+                if (NFCGameManager.Instance != null)
+                {
+                    NFCGameManager.Instance.StartNFCSession();
+                }
+            }
         }
     }
     

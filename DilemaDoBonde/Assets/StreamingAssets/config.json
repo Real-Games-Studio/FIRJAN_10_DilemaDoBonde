@@ -2,6 +2,10 @@
   "timeoutSeconds": 60,
   "choiceDisplayTime": 5,
   "resultDisplayTime": 10,
+  "server": {
+    "ip": "192.168.0.185",
+    "port": 8080
+  },
   "profiles": {
     "realist": {
       "name": {

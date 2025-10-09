@@ -2,13 +2,18 @@
   "staticTexts": [
     {
       "id": "title",
-      "textPt": "Dilema do bonde",
-      "textEn": "Bond dilema"
+      "textPt": "DILEMA",
+      "textEn": "TROLLEY"
+    },
+    {
+      "id": "title2",
+      "textPt": "DO BONDE",
+      "textEn": "PROBLEM"
     },
     {
       "id": "cta_text",
-      "textPt": "Pressione o botão para começar",
-      "textEn": "Press the botton to start"
+      "textPt": "O futuro está em suas mãos. Assuma o controle e mostre quais escolhas você faria.",
+      "textEn": "The future is in your hands. Take charge and show the choices you’d make."
     },
     {
       "id": "record_text",

@@ -14,6 +14,11 @@ public static class ScreenManager
         CallScreen?.Invoke(name);
         currentScreenName = name;
     }
+    
+    public static string GetCurrentScreenName()
+    {
+        return currentScreenName;
+    }
 
     public static void TurnOnCanvasGroup(CanvasGroup c)
     {

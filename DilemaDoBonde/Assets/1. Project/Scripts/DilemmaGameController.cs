@@ -146,6 +146,12 @@ public class DilemmaGameController : MonoBehaviour
         isGameActive = true;
         currentTimer = 0f;
         
+        // Resetar estado do NFC para novo jogo
+        if (NFCGameManager.Instance != null)
+        {
+            NFCGameManager.Instance.ResetForNewGame();
+        }
+        
         ShowCurrentDilemma();
     }
     
@@ -239,6 +245,12 @@ public class DilemmaGameController : MonoBehaviour
         currentDilemmaIndex = 0;
         realistAnswers = 0;
         empatheticAnswers = 0;
+        
+        // Resetar estado do NFC ao voltar para idle
+        if (NFCGameManager.Instance != null)
+        {
+            NFCGameManager.Instance.ResetForNewGame();
+        }
         
         ScreenManager.SetCallScreen(idleScreenName);
     }

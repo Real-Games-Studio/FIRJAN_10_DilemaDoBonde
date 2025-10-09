@@ -14,7 +14,8 @@ public class NFCGameManager : MonoBehaviour
     public ServerComunication serverCommunication;
     
     [Header("Server Configuration")]
-    public string serverIP = "127.0.0.1";
+    [Tooltip("IP e porta serão carregados do config.json automaticamente")]
+    public string serverIP = "192.168.0.185";
     public int serverPort = 8080;
     
     [Header("Game Configuration")]
@@ -65,12 +66,19 @@ public class NFCGameManager : MonoBehaviour
     
     void InitializeNFC()
     {
+        if (nfcReceiver == null)
+        {
+            // Tentar encontrar automaticamente o NFCReceiver na cena
+            nfcReceiver = Object.FindFirstObjectByType<NFCReceiver>();
+        }
+        
         if (nfcReceiver != null)
         {
             nfcReceiver.OnNFCConnected.AddListener(OnNFCConnected);
             nfcReceiver.OnNFCDisconnected.AddListener(OnNFCDisconnected);
             nfcReceiver.OnNFCReaderConnected.AddListener(OnNFCReaderConnected);
             nfcReceiver.OnNFCReaderDisconected.AddListener(OnNFCReaderDisconnected);
+            Debug.Log("NFCReceiver inicializado com sucesso!");
         }
         else
         {
@@ -80,10 +88,22 @@ public class NFCGameManager : MonoBehaviour
     
     void InitializeServer()
     {
+        if (serverCommunication == null)
+        {
+            // Tentar encontrar automaticamente o ServerComunication na cena
+            serverCommunication = Object.FindFirstObjectByType<ServerComunication>();
+        }
+        
         if (serverCommunication != null)
         {
+            // Carregar configuração do JSON
+            var serverConfig = ServerConfig.Server;
+            serverIP = serverConfig.ip;
+            serverPort = serverConfig.port;
+            
             serverCommunication.Ip = serverIP;
             serverCommunication.Port = serverPort;
+            Debug.Log($"ServerComunication inicializado com configuração do JSON: {serverIP}:{serverPort}");
         }
         else
         {
@@ -93,33 +113,35 @@ public class NFCGameManager : MonoBehaviour
     
     void SetupUI()
     {
-        if (nfcPromptPanel != null)
-        {
-            nfcPromptPanel.SetActive(false);
-        }
-        
+        // O painel NFC não é mais necessário - usamos o feedback da ResultScreen
         if (skipNFCButton != null)
         {
             skipNFCButton.onClick.AddListener(SkipNFCAndReturnToIdle);
         }
-        
-        UpdateNFCStatusText("Aguardando leitor NFC...");
     }
     
     public void StartNFCSession()
     {
+        Debug.Log("[DEBUG] StartNFCSession chamado");
+        
         if (gameResultsSent)
         {
-            Debug.Log("Resultados já foram enviados para este jogo.");
+            Debug.Log("[DEBUG] Resultados já foram enviados para este jogo - saindo");
             return;
         }
         
-        if (nfcPromptPanel != null)
+        Debug.Log("[DEBUG] Ativando sessão NFC...");
+        
+        // Ativar a espera do NFC (não precisamos mais do painel separado)
+        isWaitingForNFC = true;
+        Debug.Log("[DEBUG] isWaitingForNFC = true");
+        
+        // Mostrar feedback na ResultScreen
+        ResultScreen resultScreen = Object.FindFirstObjectByType<ResultScreen>();
+        if (resultScreen != null)
         {
-            nfcPromptPanel.SetActive(true);
-            isWaitingForNFC = true;
-            UpdateNFCStatusText("Aproxime seu cartão NFC do leitor para salvar sua pontuação...");
-            UpdateInstructionText("Posicione o cartão próximo ao leitor NFC para registrar seus resultados no servidor.");
+            resultScreen.ShowNFCWaitingFeedback();
+            Debug.Log("[DEBUG] Feedback mostrado na ResultScreen");
         }
         
         // Auto-return to idle after timeout
@@ -139,16 +161,23 @@ public class NFCGameManager : MonoBehaviour
     
     void OnNFCConnected(string nfcId, string readerName)
     {
-        Debug.Log($"NFC Conectado: {nfcId} no leitor {readerName}");
+        Debug.Log($"[DEBUG] NFC Conectado: {nfcId} no leitor {readerName}");
+        Debug.Log($"[DEBUG] Estado atual - isWaitingForNFC: {isWaitingForNFC}, gameResultsSent: {gameResultsSent}");
+        
         currentNFCId = nfcId;
         currentNFCReader = readerName;
         
         if (isWaitingForNFC)
         {
+            Debug.Log("[DEBUG] Processando NFC - iniciando envio de dados...");
             UpdateNFCStatusText($"Cartão detectado: {nfcId}");
             UpdateInstructionText("Enviando resultados para o servidor...");
             
             StartCoroutine(SendGameResults());
+        }
+        else
+        {
+            Debug.Log("[DEBUG] NFC conectado mas não está aguardando (isWaitingForNFC = false)");
         }
     }
     
@@ -206,11 +235,25 @@ public class NFCGameManager : MonoBehaviour
             UpdateNFCStatusText("Pontuação salva com sucesso!");
             UpdateInstructionText("Seus resultados foram registrados no servidor. Obrigado por participar!");
             gameResultsSent = true;
+            
+            // Mostrar feedback de sucesso na ResultScreen
+            ResultScreen resultScreen = Object.FindFirstObjectByType<ResultScreen>();
+            if (resultScreen != null)
+            {
+                resultScreen.ShowNFCSavedFeedback();
+            }
         }
         else
         {
             UpdateNFCStatusText("Erro ao salvar pontuação");
             UpdateInstructionText("Não foi possível conectar ao servidor. Tente novamente.");
+            
+            // Mostrar feedback de erro na ResultScreen
+            ResultScreen resultScreen = Object.FindFirstObjectByType<ResultScreen>();
+            if (resultScreen != null)
+            {
+                resultScreen.ShowNFCErrorFeedback();
+            }
         }
         
         yield return new WaitForSeconds(3f);
@@ -284,11 +327,6 @@ public class NFCGameManager : MonoBehaviour
     {
         isWaitingForNFC = false;
         
-        if (nfcPromptPanel != null)
-        {
-            nfcPromptPanel.SetActive(false);
-        }
-        
         // Retornar ao menu inicial
         if (DilemmaGameController.Instance != null)
         {
@@ -303,13 +341,69 @@ public class NFCGameManager : MonoBehaviour
         FinishNFCSession();
     }
     
+    public void ResetForNewGame()
+    {
+        Debug.Log("Resetando estado do NFC para novo jogo");
+        gameResultsSent = false;
+        isWaitingForNFC = false;
+        currentNFCId = "";
+        currentNFCReader = "";
+        
+        StopAllCoroutines();
+        
+        // Limpar feedback na ResultScreen se estiver ativa
+        ResultScreen resultScreen = Object.FindFirstObjectByType<ResultScreen>();
+        if (resultScreen != null)
+        {
+            resultScreen.ClearNFCFeedback();
+        }
+    }
+    
+    public void GetScoreMapping(bool isRealist, out int logicalReasoning, out int selfAwareness, out int decisionMaking)
+    {
+        if (isRealist)
+        {
+            logicalReasoning = realistLogicalReasoning;
+            selfAwareness = realistSelfAwareness;
+            decisionMaking = realistDecisionMaking;
+        }
+        else
+        {
+            logicalReasoning = empatheticLogicalReasoning;
+            selfAwareness = empatheticSelfAwareness;
+            decisionMaking = empatheticDecisionMaking;
+        }
+    }
+    
+    public void ReloadServerConfiguration()
+    {
+        Debug.Log("Recarregando configuração do servidor...");
+        ServerConfig.ReloadConfiguration();
+        
+        var serverConfig = ServerConfig.Server;
+        serverIP = serverConfig.ip;
+        serverPort = serverConfig.port;
+        
+        if (serverCommunication != null)
+        {
+            serverCommunication.Ip = serverIP;
+            serverCommunication.Port = serverPort;
+        }
+        
+        Debug.Log($"Nova configuração aplicada: {serverIP}:{serverPort}");
+    }
+    
     void UpdateNFCStatusText(string message)
     {
         if (nfcStatusText != null)
         {
             nfcStatusText.text = message;
         }
-        Debug.Log($"NFC Status: {message}");
+        // Só loggar quando há uma sessão ativa
+        if (isWaitingForNFC)
+        {
+            Debug.Log($"NFC Status: {message}");
+        }
     }
     
     void UpdateInstructionText(string message)

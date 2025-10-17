@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 18d4c17b9dc3f134095e4b33f619cfd2
+guid: 0440ae634a2fb744da1a3e7f25bf5c6c
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Akzidenz-Grotesk Next
+  - AktivGrotesk-XBold
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

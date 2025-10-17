@@ -17,13 +17,13 @@
     },
     {
       "id": "record_text",
-      "textPt": "Opção registrada",
-      "textEn": "Choice registred"
+      "textPt": "gravando programação",
+      "textEn": "saving answer"
     },
     {
       "id": "results_text",
-      "textPt": "Resultado",
-      "textEn": "Result"
+      "textPt": "RESULTADO FINAL",
+      "textEn": "END RESULT"
     }
 
   ]

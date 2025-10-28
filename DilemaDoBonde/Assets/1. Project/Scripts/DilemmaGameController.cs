@@ -209,13 +209,27 @@ public class DilemmaGameController : MonoBehaviour
         
         ShowChoiceConfirmation(chooseOptionA);
     }
-    
+
     void ShowChoiceConfirmation(bool chooseOptionA)
     {
+        // Primeiro ativa a tela
         ScreenManager.SetCallScreen(choiceScreenName);
+
+        // Depois pega a referência e seta a opção
+        ChoiceScreen choiceScreen = FindFirstObjectByType<ChoiceScreen>();
+        if (choiceScreen != null)
+        {
+            Debug.Log($"[DilemmaGameController] Setando opção escolhida: {(chooseOptionA ? "A" : "B")}");
+            choiceScreen.SetChosenOption(chooseOptionA);
+        }
+        else
+        {
+            Debug.LogError("[DilemmaGameController] ChoiceScreen não encontrado!");
+        }
+
         StartCoroutine(WaitAndProceed());
     }
-    
+
     IEnumerator WaitAndProceed()
     {
         yield return new WaitForSeconds(choiceDisplayTime);
@@ -301,6 +315,11 @@ public class DilemmaGameController : MonoBehaviour
     public float GetResultDisplayTime()
     {
         return dilemmaConfig != null ? dilemmaConfig.resultDisplayTime : 10f;
+    }
+    
+    public float GetChoiceDisplayTime()
+    {
+        return choiceDisplayTime;
     }
     
     public float GetRemainingTime()

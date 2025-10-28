@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using RealGames;
 using System.Collections;
+using UnityEngine.UI;
 
 public class ResultScreen : CanvasScreen
 {
@@ -14,49 +15,105 @@ public class ResultScreen : CanvasScreen
     public TMP_Text nfcInstructionText;
     public TMP_Text nfcFeedbackText;
     public TMP_Text scoreDisplayText;
-    
+
+    [Header("Score Fill Images")]
+    public Image logicalReasoningFillImage;
+    public Image selfAwarenessFillImage;
+    public Image decisionMakingFillImage;
+
     [Header("Settings")]
-    [SerializeField] private float autoReturnTime = 10f; // Default fallback value
-    
+    [SerializeField] private float autoReturnTime = 10f;
+    [SerializeField] private float fillAnimationDuration = 0.35f;
+    [SerializeField] private float delayBetweenFills = 0;
+
     public override void OnEnable()
     {
         base.OnEnable();
         LanguageManager.OnLanguageChanged += RefreshTexts;
     }
-    
+
     public override void OnDisable()
     {
         base.OnDisable();
         LanguageManager.OnLanguageChanged -= RefreshTexts;
     }
-    
+
     public override void TurnOn()
     {
         base.TurnOn();
+        ResetFillImages();
         SetupResultScreen();
-        
-        // Resetar feedback do NFC
+
         if (nfcFeedbackText != null)
         {
             nfcFeedbackText.text = "";
         }
-        
+
+        StartCoroutine(AnimateScoreFills());
         StartCoroutine(AutoReturnToIdle());
     }
-    
+
+    void ResetFillImages()
+    {
+        if (logicalReasoningFillImage != null)
+            logicalReasoningFillImage.fillAmount = 0f;
+
+        if (selfAwarenessFillImage != null)
+            selfAwarenessFillImage.fillAmount = 0f;
+
+        if (decisionMakingFillImage != null)
+            decisionMakingFillImage.fillAmount = 0f;
+    }
+
+    IEnumerator AnimateScoreFills()
+    {
+        Debug.Log("[ResultScreen] Iniciando animação dos fills até 100%");
+
+        yield return StartCoroutine(AnimateSingleFill(logicalReasoningFillImage, 1f));
+
+        yield return new WaitForSeconds(delayBetweenFills);
+        yield return StartCoroutine(AnimateSingleFill(selfAwarenessFillImage, 1f));
+
+        yield return new WaitForSeconds(delayBetweenFills);
+        yield return StartCoroutine(AnimateSingleFill(decisionMakingFillImage, 1f));
+    }
+
+    IEnumerator AnimateSingleFill(Image fillImage, float targetAmount)
+    {
+        if (fillImage == null)
+        {
+            Debug.LogWarning($"[ResultScreen] Fill image está null");
+            yield break;
+        }
+
+        float elapsedTime = 0f;
+        float startAmount = 0f;
+
+        while (elapsedTime < fillAnimationDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float progress = elapsedTime / fillAnimationDuration;
+            fillImage.fillAmount = Mathf.Lerp(startAmount, targetAmount, progress);
+            yield return null;
+        }
+
+        fillImage.fillAmount = targetAmount;
+        Debug.Log($"[ResultScreen] Fill completo: {fillImage.name} = {targetAmount * 100}%");
+    }
+
     void RefreshTexts()
     {
         SetupResultScreen();
-        DisplayScoreInfo(); // Atualizar pontuações quando idioma mudar
+        DisplayScoreInfo();
     }
-    
+
     void SetupResultScreen()
     {
         if (DilemmaGameController.Instance == null) return;
-        
+
         ProfileInfo finalProfile = DilemmaGameController.Instance.GetFinalProfile();
         if (finalProfile == null) return;
-        
+
         if (titleText != null)
         {
             if (LanguageManager.Instance != null && LanguageManager.Instance.IsEnglish())
@@ -64,13 +121,13 @@ public class ResultScreen : CanvasScreen
             else
                 titleText.text = "SEU PERFIL";
         }
-            
+
         if (profileNameText != null)
             profileNameText.text = finalProfile.name.GetText();
-            
+
         if (profileDescriptionText != null)
             profileDescriptionText.text = finalProfile.description.GetText();
-            
+
         if (instructionText != null)
         {
             if (LanguageManager.Instance != null && LanguageManager.Instance.IsEnglish())
@@ -78,7 +135,7 @@ public class ResultScreen : CanvasScreen
             else
                 instructionText.text = "Obrigado por participar!";
         }
-            
+
         if (restartInstructionText != null)
         {
             if (LanguageManager.Instance != null && LanguageManager.Instance.IsEnglish())
@@ -86,7 +143,7 @@ public class ResultScreen : CanvasScreen
             else
                 restartInstructionText.text = "Pressione 3 para jogar novamente";
         }
-        
+
         if (nfcInstructionText != null)
         {
             if (LanguageManager.Instance != null && LanguageManager.Instance.IsEnglish())
@@ -94,42 +151,37 @@ public class ResultScreen : CanvasScreen
             else
                 nfcInstructionText.text = "Pressione 4 para ativar NFC ou use seu cartão NFC para salvar sua pontuação!";
         }
-        
-        // Resetar texto de feedback do NFC
+
         if (nfcFeedbackText != null)
         {
             nfcFeedbackText.text = "";
         }
-        
-        // Mostrar pontuações que serão salvas
+
         DisplayScoreInfo();
     }
-    
+
     IEnumerator AutoReturnToIdle()
     {
-        // Get the result display time from the configuration
         if (DilemmaGameController.Instance != null)
         {
             autoReturnTime = DilemmaGameController.Instance.GetResultDisplayTime();
         }
-        
-        // Aguardar 3 segundos antes de mostrar a opção NFC
+
         yield return new WaitForSeconds(3f);
-        
-        // Ativar sessão NFC para permitir que o jogador salve sua pontuação
+
         if (NFCGameManager.Instance != null)
         {
             NFCGameManager.Instance.StartNFCSession();
         }
-        
+
         yield return new WaitForSeconds(autoReturnTime - 3f);
-        
+
         if (DilemmaGameController.Instance != null)
         {
             DilemmaGameController.Instance.ResetToIdle();
         }
     }
-    
+
     public void ShowNFCWaitingFeedback()
     {
         if (nfcFeedbackText != null)
@@ -140,7 +192,7 @@ public class ResultScreen : CanvasScreen
                 nfcFeedbackText.text = "Aguardando cartão NFC...";
         }
     }
-    
+
     public void ShowNFCSavedFeedback()
     {
         if (nfcFeedbackText != null)
@@ -151,7 +203,7 @@ public class ResultScreen : CanvasScreen
                 nfcFeedbackText.text = "Dados gravados com sucesso!";
         }
     }
-    
+
     public void ShowNFCErrorFeedback()
     {
         if (nfcFeedbackText != null)
@@ -162,7 +214,7 @@ public class ResultScreen : CanvasScreen
                 nfcFeedbackText.text = "Erro ao salvar dados. Tente novamente.";
         }
     }
-    
+
     public void ClearNFCFeedback()
     {
         if (nfcFeedbackText != null)
@@ -170,18 +222,16 @@ public class ResultScreen : CanvasScreen
             nfcFeedbackText.text = "";
         }
     }
-    
+
     void DisplayScoreInfo()
     {
-        if (scoreDisplayText == null || DilemmaGameController.Instance == null || NFCGameManager.Instance == null) 
+        if (scoreDisplayText == null || DilemmaGameController.Instance == null || NFCGameManager.Instance == null)
             return;
-        
-        // Determinar se é Realista ou Empático
+
         bool isRealist = DilemmaGameController.Instance.realistAnswers > DilemmaGameController.Instance.empatheticAnswers;
-        
-        // Obter pontuações do NFCGameManager
+
         NFCGameManager.Instance.GetScoreMapping(isRealist, out int logicalReasoning, out int selfAwareness, out int decisionMaking);
-        
+
         string profileType;
         if (isRealist)
         {
@@ -197,8 +247,7 @@ public class ResultScreen : CanvasScreen
             else
                 profileType = "Empático";
         }
-        
-        // Criar texto das pontuações
+
         string scoreText;
         if (LanguageManager.Instance != null && LanguageManager.Instance.IsEnglish())
         {
@@ -214,7 +263,7 @@ public class ResultScreen : CanvasScreen
                        $"• Autoconsciência: <color=#2196F3>{selfAwareness}</color>\n" +
                        $"• Tomada de Decisão: <color=#FF9800>{decisionMaking}</color>";
         }
-        
+
         scoreDisplayText.text = scoreText;
     }
 }

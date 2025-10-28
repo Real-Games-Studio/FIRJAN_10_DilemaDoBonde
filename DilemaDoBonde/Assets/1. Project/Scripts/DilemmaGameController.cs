@@ -157,7 +157,7 @@ public class DilemmaGameController : MonoBehaviour
     {
         if (currentDilemmaIndex < dilemmaConfig.dilemmas.Length)
         {
-            RandomizeOptionPositions();
+            // RandomizeOptionPositions();
             
             ScreenManager.SetCallScreen(dilemmaScreenName);
             Debug.Log($"Showing dilemma {currentDilemmaIndex + 1}: {dilemmaConfig.dilemmas[currentDilemmaIndex].title.GetText()} - Option A on {(isOptionAOnLeft ? "left (1)" : "right (2)")}");

@@ -68,18 +68,25 @@ public class CanvasScreen: MonoBehaviour
         }
     }
 
-    public virtual void OnEnable()
+    public virtual void Awake()
     {
         if (canvasgroup == null)
         {
             canvasgroup = GetComponent<CanvasGroup>();
         }
-        // Registra o m騁odo CallScreenListner como ouvinte do evento CallScreen
         ScreenManager.CallScreen += CallScreenListner;
     }
+    
+    public virtual void OnEnable()
+    {
+    }
+    
     public virtual void OnDisable()
     {
-        // Remove o m騁odo CallScreenListner como ouvinte do evento CallScreen
+    }
+    
+    public virtual void OnDestroy()
+    {
         ScreenManager.CallScreen -= CallScreenListner;
     }
 
@@ -94,17 +101,21 @@ public class CanvasScreen: MonoBehaviour
             TurnOff();
         }
     }
+    
     public virtual void TurnOn()
     {
         canvasgroup.alpha = 1;
         canvasgroup.interactable = true;
         canvasgroup.blocksRaycasts = true;
+        gameObject.SetActive(true);
     }
+    
     public virtual void TurnOff()
     {
         canvasgroup.alpha = 0;
         canvasgroup.interactable = false;
         canvasgroup.blocksRaycasts = false;
+        gameObject.SetActive(false);
     }
     public bool IsOn()
     {

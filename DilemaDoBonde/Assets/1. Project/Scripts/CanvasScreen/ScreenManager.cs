@@ -25,6 +25,7 @@ public static class ScreenManager
         c.alpha = 1;
         c.interactable = true;
         c.blocksRaycasts = true;
+        c.gameObject.SetActive(true);
     }
 
     public static void TurnOffCanvasGroup(CanvasGroup c)
@@ -32,5 +33,6 @@ public static class ScreenManager
         c.alpha = 0;
         c.interactable = false;
         c.blocksRaycasts = false;
+        c.gameObject.SetActive(false);
     }
 }

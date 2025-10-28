@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using RealGames;
 
@@ -21,6 +22,7 @@ public class DilemmaScreen : CanvasScreen
     public TMP_Text instructionText;
     public TMP_Text timeRemainingText;
     public TMP_Text progressText;
+    public Image timerFillImage;
     
     public override void OnEnable()
     {
@@ -43,6 +45,21 @@ public class DilemmaScreen : CanvasScreen
     void Update()
     {
         UpdateTimerDisplay();
+        UpdateTimerFill();
+    }
+    
+    void UpdateTimerFill()
+    {
+        if (timerFillImage != null && DilemmaGameController.Instance != null)
+        {
+            float remainingTime = DilemmaGameController.Instance.GetRemainingTime();
+            float totalTime = DilemmaGameController.Instance.dilemmaConfig.timeoutSeconds;
+            
+            if (totalTime > 0)
+            {
+                timerFillImage.fillAmount = Mathf.Clamp01(remainingTime / totalTime);
+            }
+        }
     }
     
     void RefreshTexts()

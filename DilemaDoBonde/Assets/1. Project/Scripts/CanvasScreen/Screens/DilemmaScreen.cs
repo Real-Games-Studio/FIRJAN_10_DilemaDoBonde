@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -23,6 +24,12 @@ public class DilemmaScreen : CanvasScreen
     public TMP_Text timeRemainingText;
     public TMP_Text progressText;
     public Image timerFillImage;
+    public Image optionAFillImage;
+    public Image optionBFillImage;
+    
+    private bool isWaitingForNextScreen = false;
+    private const float FILL_DURATION = 1.25f;
+    private const float WAIT_AFTER_FILL = 0.75f;
     
     public override void OnEnable()
     {
@@ -39,6 +46,8 @@ public class DilemmaScreen : CanvasScreen
     public override void TurnOn()
     {
         base.TurnOn();
+        ResetFillImages();
+        isWaitingForNextScreen = false;
         SetupDilemmaScreen();
     }
     
@@ -153,6 +162,49 @@ public class DilemmaScreen : CanvasScreen
             int currentIndex = DilemmaGameController.Instance.currentDilemmaIndex + 1;
             int totalDilemmas = DilemmaGameController.Instance.GetTotalDilemmas();
             progressText.text = $"{currentIndex}/{totalDilemmas}";
+        }
+    }
+    
+    void ResetFillImages()
+    {
+        if (optionAFillImage != null)
+            optionAFillImage.fillAmount = 0f;
+            
+        if (optionBFillImage != null)
+            optionBFillImage.fillAmount = 0f;
+    }
+    
+    public void OnPlayerChoice(bool chooseOptionA)
+    {
+        if (isWaitingForNextScreen) return;
+        
+        isWaitingForNextScreen = true;
+        StartCoroutine(AnimateChoiceAndProceed(chooseOptionA));
+    }
+    
+    private IEnumerator AnimateChoiceAndProceed(bool chooseOptionA)
+    {
+        Image targetFillImage = chooseOptionA ? optionAFillImage : optionBFillImage;
+        
+        if (targetFillImage != null)
+        {
+            float elapsedTime = 0f;
+            
+            while (elapsedTime < FILL_DURATION)
+            {
+                elapsedTime += Time.deltaTime;
+                targetFillImage.fillAmount = Mathf.Clamp01(elapsedTime / FILL_DURATION);
+                yield return null;
+            }
+            
+            targetFillImage.fillAmount = 1f;
+        }
+        
+        yield return new WaitForSeconds(WAIT_AFTER_FILL);
+        
+        if (DilemmaGameController.Instance != null)
+        {
+            DilemmaGameController.Instance.ProcessAnswer(chooseOptionA);
         }
     }
 }

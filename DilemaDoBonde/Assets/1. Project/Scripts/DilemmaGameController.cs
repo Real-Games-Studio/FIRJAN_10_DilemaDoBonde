@@ -100,15 +100,13 @@ public class DilemmaGameController : MonoBehaviour
         {
             if (number == 1)
             {
-                // Player pressed 1 - determine which option this corresponds to
-                bool chooseOptionA = isOptionAOnLeft; // If A is on left, 1 = A, otherwise 1 = B
-                AnswerDilemma(chooseOptionA);
+                bool chooseOptionA = isOptionAOnLeft;
+                TriggerChoiceAnimation(chooseOptionA);
             }
             else if (number == 2)
             {
-                // Player pressed 2 - determine which option this corresponds to  
-                bool chooseOptionA = !isOptionAOnLeft; // If A is on left, 2 = B, otherwise 2 = A
-                AnswerDilemma(chooseOptionA);
+                bool chooseOptionA = !isOptionAOnLeft;
+                TriggerChoiceAnimation(chooseOptionA);
             }
         }
         else if (currentScreen == choiceScreenName)
@@ -159,7 +157,6 @@ public class DilemmaGameController : MonoBehaviour
     {
         if (currentDilemmaIndex < dilemmaConfig.dilemmas.Length)
         {
-            // Randomize option positions for each new dilemma
             RandomizeOptionPositions();
             
             ScreenManager.SetCallScreen(dilemmaScreenName);
@@ -169,6 +166,20 @@ public class DilemmaGameController : MonoBehaviour
         {
             ShowFinalResult();
         }
+    }
+    
+    void TriggerChoiceAnimation(bool chooseOptionA)
+    {
+        DilemmaScreen dilemmaScreen = FindFirstObjectByType<DilemmaScreen>();
+        if (dilemmaScreen != null)
+        {
+            dilemmaScreen.OnPlayerChoice(chooseOptionA);
+        }
+    }
+    
+    public void ProcessAnswer(bool chooseOptionA)
+    {
+        AnswerDilemma(chooseOptionA);
     }
     
     public void AnswerDilemma(bool chooseOptionA)

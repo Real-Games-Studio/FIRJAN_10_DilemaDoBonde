@@ -71,10 +71,10 @@ public class ResultScreen : CanvasScreen
 
         yield return StartCoroutine(AnimateSingleFill(logicalReasoningFillImage, 1f));
 
-        yield return new WaitForSeconds(delayBetweenFills);
+        yield return new WaitForSeconds(delayBetweenFills/3);
         yield return StartCoroutine(AnimateSingleFill(selfAwarenessFillImage, 1f));
 
-        yield return new WaitForSeconds(delayBetweenFills);
+        yield return new WaitForSeconds(delayBetweenFills/3);
         yield return StartCoroutine(AnimateSingleFill(decisionMakingFillImage, 1f));
     }
 

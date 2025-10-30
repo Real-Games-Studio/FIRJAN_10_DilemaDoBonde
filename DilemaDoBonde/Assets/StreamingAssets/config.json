@@ -1,6 +1,6 @@
 {
   "timeoutSeconds": 60,
-  "choiceDisplayTime": 2,
+  "choiceDisplayTime": 1,
   "resultDisplayTime": 10,
   "server": {
     "ip": "192.168.0.185",

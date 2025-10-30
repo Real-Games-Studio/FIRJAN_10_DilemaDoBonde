@@ -5098,8 +5098,8 @@ MonoBehaviour:
   selfAwarenessFillImage: {fileID: 128338780}
   decisionMakingFillImage: {fileID: 1111537454}
   autoReturnTime: 30
-  fillAnimationDuration: 1.5
-  delayBetweenFills: 0.3
+  fillAnimationDuration: 0.6
+  delayBetweenFills: 0
 --- !u!225 &1313244343
 CanvasGroup:
   m_ObjectHideFlags: 0

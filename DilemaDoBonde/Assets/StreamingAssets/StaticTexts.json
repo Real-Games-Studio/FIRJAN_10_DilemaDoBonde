@@ -23,7 +23,47 @@
     {
       "id": "results_text",
       "textPt": "RESULTADO FINAL",
-      "textEn": "END RESULT"
+      "textEn": "ENDING RESULT"
+    },
+    {
+      "id": "restartInstruction",
+      "textPt": "segure o botão para reiniciar",
+      "textEn": "hold the button to restart"
+    },
+    {
+      "id": "score1",
+      "textPt": "PROGRAMAÇÃO",
+      "textEn": "PROGRAMMING"
+    },
+    {
+      "id": "score2",
+      "textPt": "REDES E SEGURANÇA",
+      "textEn": "NETWORKS AND SECURITY"
+    },
+    {
+      "id": "score3",
+      "textPt": "AUTOCONSCIÊNCIA",
+      "textEn": "SELFAWARENESS"
+    },
+    {
+      "id": "scoreTitle",
+      "textPt": "Você completou o circuito e consquistou habildiades!",
+      "textEn": "You completed the circuit and earned abilities!"
+    },
+    {
+      "id": "endThanks",
+      "textPt": "Obrigado!",
+      "textEn": "Thank you!"
+    },
+    {
+      "id": "subThanks",
+      "textPt": "Seus dados foram gravados em seu perfil.!",
+      "textEn": "Your data has been saved to your profile."
+    },
+    {
+      "id": "nfcInstruction",
+      "textPt": "aproxime seu cartão",
+      "textEn": "tap your card"
     }
 
   ]

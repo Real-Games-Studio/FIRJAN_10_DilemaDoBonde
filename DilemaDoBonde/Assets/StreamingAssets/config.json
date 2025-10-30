@@ -1,7 +1,7 @@
 {
   "timeoutSeconds": 60,
   "choiceDisplayTime": 1,
-  "resultDisplayTime": 10,
+  "resultDisplayTime": 20,
   "server": {
     "ip": "192.168.0.185",
     "port": 8080

@@ -2160,15 +2160,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1358371599435202146, guid: fedf7afcc9dc094498cf28d40fc0da29, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1358371599435202146, guid: fedf7afcc9dc094498cf28d40fc0da29, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1358371599435202146, guid: fedf7afcc9dc094498cf28d40fc0da29, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5859983200204604064, guid: fedf7afcc9dc094498cf28d40fc0da29, type: 3}
       propertyPath: m_Name
@@ -2192,7 +2192,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8203515336028106731, guid: fedf7afcc9dc094498cf28d40fc0da29, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8849581960881322559, guid: fedf7afcc9dc094498cf28d40fc0da29, type: 3}
       propertyPath: m_Pivot.x
@@ -5093,7 +5093,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1313244341
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5396,7 +5396,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1360771042
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5935,6 +5935,7 @@ GameObject:
   - component: {fileID: 1479644949}
   - component: {fileID: 1479644948}
   - component: {fileID: 1479644947}
+  - component: {fileID: 1479644950}
   m_Layer: 5
   m_Name: IdleScreen
   m_TagString: Untagged
@@ -6008,9 +6009,9 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1479644945}
   m_Enabled: 1
-  m_Alpha: 0
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 1
 --- !u!222 &1479644949
 CanvasRenderer:
@@ -6020,6 +6021,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1479644945}
   m_CullTransparentMesh: 1
+--- !u!114 &1479644950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1479644945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b73798be88c2c7144a2a623a7e32dc2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portugueseObjects:
+  - {fileID: 1247912744}
+  englishObjects:
+  - {fileID: 1704336299}
 --- !u!1 &1496895035
 GameObject:
   m_ObjectHideFlags: 0
@@ -7051,7 +7068,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1730455821
 RectTransform:
   m_ObjectHideFlags: 0

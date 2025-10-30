@@ -1362,7 +1362,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 350006180}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 78ca8f35ed150d847882f9fc708e7ede, type: 3}
   m_Name: 
@@ -1379,7 +1379,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 350006180}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29cff710a2082ec4baf1a43bdc6e649f, type: 3}
   m_Name: 
@@ -2114,15 +2114,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1358371599435202146, guid: fedf7afcc9dc094498cf28d40fc0da29, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1358371599435202146, guid: fedf7afcc9dc094498cf28d40fc0da29, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1358371599435202146, guid: fedf7afcc9dc094498cf28d40fc0da29, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5859983200204604064, guid: fedf7afcc9dc094498cf28d40fc0da29, type: 3}
       propertyPath: m_Name
@@ -2146,7 +2146,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8203515336028106731, guid: fedf7afcc9dc094498cf28d40fc0da29, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8849581960881322559, guid: fedf7afcc9dc094498cf28d40fc0da29, type: 3}
       propertyPath: m_Pivot.x
@@ -5097,6 +5097,8 @@ MonoBehaviour:
   logicalReasoningFillImage: {fileID: 594014053}
   selfAwarenessFillImage: {fileID: 128338780}
   decisionMakingFillImage: {fileID: 1111537454}
+  nfcBeforeObject: {fileID: 1841297292}
+  nfcAfterObject: {fileID: 1031716742}
   autoReturnTime: 30
   fillAnimationDuration: 0.6
   delayBetweenFills: 0
@@ -7384,7 +7386,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1841297293
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7490,6 +7492,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6950869784751064817, guid: 70fbc4c106242b94fab8b822d851bafd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1860754377}
+    - targetCorrespondingSourceObject: {fileID: 6950869784751064817, guid: 70fbc4c106242b94fab8b822d851bafd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1860754379}
   m_SourcePrefab: {fileID: 100100000, guid: 70fbc4c106242b94fab8b822d851bafd, type: 3}
 --- !u!1 &1860754375 stripped
 GameObject:
@@ -7534,6 +7539,47 @@ MonoBehaviour:
   empatheticLogicalReasoning: 8
   empatheticSelfAwareness: 6
   empatheticDecisionMaking: 6
+--- !u!114 &1860754379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1860754375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c322498db2a76a4f875f8bfd91eb81f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  simulatedCardId: TEST_CARD_001
+  simulatedReaderName: Virtual NFC Reader
+  OnNFCRead:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1841297292}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1031716742}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!1 &1892538485
 GameObject:
   m_ObjectHideFlags: 0

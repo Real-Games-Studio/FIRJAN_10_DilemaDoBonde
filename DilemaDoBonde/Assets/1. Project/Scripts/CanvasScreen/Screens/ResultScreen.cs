@@ -21,6 +21,10 @@ public class ResultScreen : CanvasScreen
     public Image selfAwarenessFillImage;
     public Image decisionMakingFillImage;
 
+    [Header("NFC UI Elements")]
+    public GameObject nfcBeforeObject;
+    public GameObject nfcAfterObject;
+
     [Header("Settings")]
     [SerializeField] private float autoReturnTime = 10f;
     [SerializeField] private float fillAnimationDuration = 0.35f;
@@ -42,6 +46,7 @@ public class ResultScreen : CanvasScreen
     {
         base.TurnOn();
         ResetFillImages();
+        ResetNFCUI();
         SetupResultScreen();
 
         if (nfcFeedbackText != null)
@@ -63,6 +68,15 @@ public class ResultScreen : CanvasScreen
 
         if (decisionMakingFillImage != null)
             decisionMakingFillImage.fillAmount = 0f;
+    }
+
+    void ResetNFCUI()
+    {
+        if (nfcBeforeObject != null)
+            nfcBeforeObject.SetActive(true);
+
+        if (nfcAfterObject != null)
+            nfcAfterObject.SetActive(false);
     }
 
     IEnumerator AnimateScoreFills()
@@ -191,6 +205,12 @@ public class ResultScreen : CanvasScreen
             else
                 nfcFeedbackText.text = "Aguardando cartão NFC...";
         }
+
+        if (nfcBeforeObject != null)
+            nfcBeforeObject.SetActive(true);
+
+        if (nfcAfterObject != null)
+            nfcAfterObject.SetActive(false);
     }
 
     public void ShowNFCSavedFeedback()
@@ -202,6 +222,12 @@ public class ResultScreen : CanvasScreen
             else
                 nfcFeedbackText.text = "Dados gravados com sucesso!";
         }
+
+        if (nfcBeforeObject != null)
+            nfcBeforeObject.SetActive(false);
+
+        if (nfcAfterObject != null)
+            nfcAfterObject.SetActive(true);
     }
 
     public void ShowNFCErrorFeedback()
@@ -221,6 +247,8 @@ public class ResultScreen : CanvasScreen
         {
             nfcFeedbackText.text = "";
         }
+
+        ResetNFCUI();
     }
 
     void DisplayScoreInfo()

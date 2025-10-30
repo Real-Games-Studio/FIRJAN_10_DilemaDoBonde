@@ -14,8 +14,20 @@ namespace _4._NFC_Firjan.Scripts.NFC
         public string simulatedReaderName = "Virtual NFC Reader";
 
         [Header("Events")]
-        [Tooltip("Evento chamado quando NFC é lido (pressionar F1 no editor)")]
+        [Tooltip("Evento chamado quando NFC é lido (F1 no editor ou NFC real em build)")]
         public UnityEvent<string, string> OnNFCRead;
+
+        private NFCReceiver nfcReceiver;
+
+        private void Start()
+        {
+            nfcReceiver = GetComponent<NFCReceiver>();
+            
+            if (nfcReceiver != null)
+            {
+                nfcReceiver.OnNFCConnected.AddListener(OnNFCReadFromRealDevice);
+            }
+        }
 
         private void Update()
         {
@@ -25,6 +37,12 @@ namespace _4._NFC_Firjan.Scripts.NFC
                 SimulateNFCRead();
             }
 #endif
+        }
+
+        void OnNFCReadFromRealDevice(string cardId, string readerName)
+        {
+            Debug.Log($"<color=cyan>[NFC Real]</color> NFC lido - Card ID: {cardId}, Reader: {readerName}");
+            OnNFCRead?.Invoke(cardId, readerName);
         }
 
         public void SimulateNFCRead()
@@ -44,6 +62,14 @@ namespace _4._NFC_Firjan.Scripts.NFC
             GUILayout.Label("Pressione F1 para simular NFC");
             GUILayout.EndArea();
 #endif
+        }
+
+        private void OnDestroy()
+        {
+            if (nfcReceiver != null)
+            {
+                nfcReceiver.OnNFCConnected.RemoveListener(OnNFCReadFromRealDevice);
+            }
         }
     }
 }

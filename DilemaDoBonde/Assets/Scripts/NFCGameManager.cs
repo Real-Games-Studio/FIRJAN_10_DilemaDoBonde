@@ -21,6 +21,10 @@ public class NFCGameManager : MonoBehaviour
     [Header("Game Configuration")]
     public int gameId = 10; // Dilema do bonde conforme documentação
     
+    [Header("Auto Reset Settings")]
+    [Tooltip("Tempo em segundos para resetar o jogo após ler o NFC")]
+    public float autoResetDelay = 3f;
+    
     [Header("UI References")]
     public GameObject nfcPromptPanel;
     public TMP_Text nfcStatusText;
@@ -242,6 +246,8 @@ public class NFCGameManager : MonoBehaviour
             {
                 resultScreen.ShowNFCSavedFeedback();
             }
+            
+            Debug.Log($"<color=green>[NFC]</color> Dados salvos! Resetando jogo em {autoResetDelay} segundos...");
         }
         else
         {
@@ -254,9 +260,13 @@ public class NFCGameManager : MonoBehaviour
             {
                 resultScreen.ShowNFCErrorFeedback();
             }
+            
+            Debug.Log($"<color=red>[NFC]</color> Erro ao salvar! Resetando jogo em {autoResetDelay} segundos...");
         }
         
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(autoResetDelay);
+        
+        Debug.Log("<color=cyan>[NFC]</color> Tempo esgotado - Resetando para tela inicial!");
         FinishNFCSession();
     }
     

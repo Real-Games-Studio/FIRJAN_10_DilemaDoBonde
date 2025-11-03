@@ -2160,15 +2160,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1358371599435202146, guid: fedf7afcc9dc094498cf28d40fc0da29, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1358371599435202146, guid: fedf7afcc9dc094498cf28d40fc0da29, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1358371599435202146, guid: fedf7afcc9dc094498cf28d40fc0da29, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5859983200204604064, guid: fedf7afcc9dc094498cf28d40fc0da29, type: 3}
       propertyPath: m_Name
@@ -2192,7 +2192,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8203515336028106731, guid: fedf7afcc9dc094498cf28d40fc0da29, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8849581960881322559, guid: fedf7afcc9dc094498cf28d40fc0da29, type: 3}
       propertyPath: m_Pivot.x
@@ -5169,7 +5169,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1313244341
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5831,6 +5831,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fb4cfdcd7cfaa1418b9cef876b463b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  holdToResetDuration: 3
+  resetProgressSlider: {fileID: 0}
+  resetProgressFillImage: {fileID: 0}
+  resetTimerText: {fileID: 0}
+  resetInstructionMessage: {fileID: 0}
 --- !u!4 &1410959179
 Transform:
   m_ObjectHideFlags: 0
@@ -6037,7 +6042,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1479644946
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7163,7 +7168,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1730455821
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7754,6 +7759,7 @@ MonoBehaviour:
   serverIP: 192.168.0.185
   serverPort: 8080
   gameId: 10
+  autoResetDelay: 3
   nfcPromptPanel: {fileID: 0}
   nfcStatusText: {fileID: 0}
   nfcInstructionText: {fileID: 0}

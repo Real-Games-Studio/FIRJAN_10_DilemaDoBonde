@@ -165,15 +165,15 @@ public class NFCGameManager : MonoBehaviour
     
     void OnNFCConnected(string nfcId, string readerName)
     {
-        Debug.Log($"[DEBUG] NFC Conectado: {nfcId} no leitor {readerName}");
-        Debug.Log($"[DEBUG] Estado atual - isWaitingForNFC: {isWaitingForNFC}, gameResultsSent: {gameResultsSent}");
+        Debug.Log($"[NFCGameManager] NFC Conectado: {nfcId} no leitor {readerName}");
+        Debug.Log($"[NFCGameManager] Estado atual - isWaitingForNFC: {isWaitingForNFC}, gameResultsSent: {gameResultsSent}");
         
         currentNFCId = nfcId;
         currentNFCReader = readerName;
         
-        if (isWaitingForNFC)
+        if (isWaitingForNFC && !gameResultsSent)
         {
-            Debug.Log("[DEBUG] Processando NFC - iniciando envio de dados...");
+            Debug.Log("[NFCGameManager] Processando NFC - iniciando envio de dados...");
             UpdateNFCStatusText($"Cartão detectado: {nfcId}");
             UpdateInstructionText("Enviando resultados para o servidor...");
             
@@ -181,7 +181,7 @@ public class NFCGameManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("[DEBUG] NFC conectado mas não está aguardando (isWaitingForNFC = false)");
+            Debug.Log($"[NFCGameManager] NFC ignorado - waiting:{isWaitingForNFC}, sent:{gameResultsSent}");
         }
     }
     
@@ -216,7 +216,6 @@ public class NFCGameManager : MonoBehaviour
             yield break;
         }
         
-        // Criar o modelo de jogo baseado nos resultados do dilema
         GameModel gameModel = CreateGameModelFromResults();
         
         if (gameModel == null)
@@ -227,47 +226,42 @@ public class NFCGameManager : MonoBehaviour
             yield break;
         }
         
-        // Enviar para o servidor em background
         bool success = false;
         
         yield return StartCoroutine(SendToServerCoroutine(gameModel, (result) => {
             success = result;
         }));
         
+        ResultScreen resultScreen = Object.FindFirstObjectByType<ResultScreen>();
+        
         if (success)
         {
+            Debug.Log("[NFCGameManager] ✓ Dados enviados com sucesso!");
             UpdateNFCStatusText("Pontuação salva com sucesso!");
             UpdateInstructionText("Seus resultados foram registrados no servidor. Obrigado por participar!");
             gameResultsSent = true;
+            isWaitingForNFC = false;
             
-            // Mostrar feedback de sucesso na ResultScreen
-            ResultScreen resultScreen = Object.FindFirstObjectByType<ResultScreen>();
             if (resultScreen != null)
             {
                 resultScreen.ShowNFCSavedFeedback();
+                resultScreen.OnNFCReadSuccess();
             }
-            
-            Debug.Log($"<color=green>[NFC]</color> Dados salvos! Resetando jogo em {autoResetDelay} segundos...");
         }
         else
         {
+            Debug.LogWarning("[NFCGameManager] ✗ Erro ao enviar dados");
             UpdateNFCStatusText("Erro ao salvar pontuação");
             UpdateInstructionText("Não foi possível conectar ao servidor. Tente novamente.");
             
-            // Mostrar feedback de erro na ResultScreen
-            ResultScreen resultScreen = Object.FindFirstObjectByType<ResultScreen>();
             if (resultScreen != null)
             {
                 resultScreen.ShowNFCErrorFeedback();
             }
             
-            Debug.Log($"<color=red>[NFC]</color> Erro ao salvar! Resetando jogo em {autoResetDelay} segundos...");
+            yield return new WaitForSeconds(3f);
+            FinishNFCSession();
         }
-        
-        yield return new WaitForSeconds(autoResetDelay);
-        
-        Debug.Log("<color=cyan>[NFC]</color> Tempo esgotado - Resetando para tela inicial!");
-        FinishNFCSession();
     }
     
     IEnumerator SendToServerCoroutine(GameModel gameModel, System.Action<bool> callback)

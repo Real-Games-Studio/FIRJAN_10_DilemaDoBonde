@@ -23,9 +23,14 @@ namespace _4._NFC_Firjan.Scripts.NFC
         {
             nfcReceiver = GetComponent<NFCReceiver>();
             
-            if (nfcReceiver != null)
+            if (nfcReceiver == null)
+            {
+                Debug.LogError("[NFCSimulator] NFCReceiver não encontrado no mesmo GameObject!");
+            }
+            else
             {
                 nfcReceiver.OnNFCConnected.AddListener(OnNFCReadFromRealDevice);
+                Debug.Log("[NFCSimulator] Inicializado e conectado ao NFCReceiver");
             }
         }
 
@@ -48,6 +53,16 @@ namespace _4._NFC_Firjan.Scripts.NFC
         public void SimulateNFCRead()
         {
             Debug.Log($"<color=cyan>[NFC Simulator]</color> NFC lido - Card ID: {simulatedCardId}, Reader: {simulatedReaderName}");
+            
+            if (nfcReceiver != null)
+            {
+                nfcReceiver.OnNFCConnected.Invoke(simulatedCardId, simulatedReaderName);
+            }
+            else
+            {
+                Debug.LogError("[NFCSimulator] NFCReceiver não encontrado! Não é possível simular NFC.");
+            }
+            
             OnNFCRead?.Invoke(simulatedCardId, simulatedReaderName);
         }
 

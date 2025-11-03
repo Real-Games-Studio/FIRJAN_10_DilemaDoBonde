@@ -29,6 +29,7 @@ public class ResultScreen : CanvasScreen
     [SerializeField] private float autoReturnTime = 10f;
     [SerializeField] private float fillAnimationDuration = 0.35f;
     [SerializeField] private float delayBetweenFills = 0;
+    [SerializeField] private float delayAfterNFCRead = 5f;
 
     public override void OnEnable()
     {
@@ -181,14 +182,12 @@ public class ResultScreen : CanvasScreen
             autoReturnTime = DilemmaGameController.Instance.GetResultDisplayTime();
         }
 
-        yield return new WaitForSeconds(3f);
-
         if (NFCGameManager.Instance != null)
         {
             NFCGameManager.Instance.StartNFCSession();
         }
 
-        yield return new WaitForSeconds(autoReturnTime - 3f);
+        yield return new WaitForSeconds(autoReturnTime);
 
         if (DilemmaGameController.Instance != null)
         {
@@ -228,6 +227,27 @@ public class ResultScreen : CanvasScreen
 
         if (nfcAfterObject != null)
             nfcAfterObject.SetActive(true);
+    }
+
+    public void OnNFCReadSuccess()
+    {
+        Debug.Log("[ResultScreen] NFC lido com sucesso - assumindo controle do fluxo");
+
+        StopAllCoroutines();
+        StartCoroutine(ReturnToIdleAfterDelay());
+    }
+
+    IEnumerator ReturnToIdleAfterDelay()
+    {
+        Debug.Log($"[ResultScreen] Aguardando {delayAfterNFCRead}s antes de resetar...");
+        yield return new WaitForSeconds(delayAfterNFCRead);
+
+        Debug.Log("[ResultScreen] Resetando para Idle");
+        
+        if (DilemmaGameController.Instance != null)
+        {
+            DilemmaGameController.Instance.ResetToIdle();
+        }
     }
 
     public void ShowNFCErrorFeedback()

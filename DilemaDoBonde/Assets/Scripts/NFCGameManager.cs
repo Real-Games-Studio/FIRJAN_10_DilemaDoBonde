@@ -177,6 +177,11 @@ public class NFCGameManager : MonoBehaviour
             UpdateNFCStatusText($"Cartão detectado: {nfcId}");
             UpdateInstructionText("Enviando resultados para o servidor...");
             
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayNFCReadSound();
+            }
+            
             StartCoroutine(SendGameResults());
         }
         else

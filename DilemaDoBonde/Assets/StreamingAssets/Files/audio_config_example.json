@@ -1,0 +1,42 @@
+{
+  "audioSettings": {
+    "masterVolume": 1.0,
+    "musicVolume": 0.7,
+    "sfxVolume": 1.0
+  },
+  "soundEffects": [
+    {
+      "id": "nfc_read",
+      "filename": "nfc_scan.wav",
+      "volume": 1.0,
+      "description": "Som tocado quando o NFC é lido com sucesso"
+    },
+    {
+      "id": "choice",
+      "filename": "choice_confirm.wav",
+      "volume": 1.0,
+      "description": "Som tocado quando o jogador escolhe opção A ou B"
+    },
+    {
+      "id": "start_button",
+      "filename": "button_start.wav",
+      "volume": 1.0,
+      "description": "Som tocado quando o jogador pressiona botão iniciar"
+    },
+    {
+      "id": "game_end",
+      "filename": "result_success.wav",
+      "volume": 1.0,
+      "description": "Som tocado ao exibir resultado final do jogo"
+    }
+  ],
+  "music": [
+    {
+      "id": "background",
+      "filename": "background_music.mp3",
+      "volume": 0.7,
+      "loop": true,
+      "description": "Música de fundo do jogo"
+    }
+  ]
+}

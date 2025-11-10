@@ -93,6 +93,10 @@ public class DilemmaGameController : MonoBehaviour
         {
             if (number == 1 || number == 2 || number == 3)
             {
+                if (AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.PlayStartButtonSound();
+                }
                 StartGame();
             }
         }
@@ -100,11 +104,19 @@ public class DilemmaGameController : MonoBehaviour
         {
             if (number == 1)
             {
+                if (AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.PlayChoiceSound();
+                }
                 bool chooseOptionA = isOptionAOnLeft;
                 TriggerChoiceAnimation(chooseOptionA);
             }
             else if (number == 2)
             {
+                if (AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.PlayChoiceSound();
+                }
                 bool chooseOptionA = !isOptionAOnLeft;
                 TriggerChoiceAnimation(chooseOptionA);
             }
@@ -215,16 +227,16 @@ public class DilemmaGameController : MonoBehaviour
         // Primeiro ativa a tela
         ScreenManager.SetCallScreen(choiceScreenName);
 
-        // Depois pega a referência e seta a opção
+        // Depois pega a referï¿½ncia e seta a opï¿½ï¿½o
         ChoiceScreen choiceScreen = FindFirstObjectByType<ChoiceScreen>();
         if (choiceScreen != null)
         {
-            Debug.Log($"[DilemmaGameController] Setando opção escolhida: {(chooseOptionA ? "A" : "B")}");
+            Debug.Log($"[DilemmaGameController] Setando opï¿½ï¿½o escolhida: {(chooseOptionA ? "A" : "B")}");
             choiceScreen.SetChosenOption(chooseOptionA);
         }
         else
         {
-            Debug.LogError("[DilemmaGameController] ChoiceScreen não encontrado!");
+            Debug.LogError("[DilemmaGameController] ChoiceScreen nï¿½o encontrado!");
         }
 
         StartCoroutine(WaitAndProceed());
@@ -242,6 +254,11 @@ public class DilemmaGameController : MonoBehaviour
     {
         ScreenManager.SetCallScreen(resultScreenName);
         isGameActive = false;
+        
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayGameEndSound();
+        }
         
         string profileType = realistAnswers > empatheticAnswers ? "realist" : "empathetic";
         Debug.Log($"Game finished. Realist: {realistAnswers}, Empathetic: {empatheticAnswers}, Result: {profileType}");

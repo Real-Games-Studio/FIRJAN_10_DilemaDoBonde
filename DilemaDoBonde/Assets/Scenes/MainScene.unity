@@ -5369,7 +5369,7 @@ MonoBehaviour:
     editor_turnOn: 0
     editor_turnOff: 0
   screenData:
-    screenName: 
+    screenName: ResultScreen
     previusScreenName: 
     nextScreenName: 
     editor_turnOn: 0
@@ -5679,7 +5679,7 @@ MonoBehaviour:
     editor_turnOn: 0
     editor_turnOff: 0
   screenData:
-    screenName: 
+    screenName: DilemmaScreen
     previusScreenName: 
     nextScreenName: 
     editor_turnOn: 0
@@ -6243,7 +6243,7 @@ MonoBehaviour:
     editor_turnOn: 0
     editor_turnOff: 0
   screenData:
-    screenName: 
+    screenName: IdleScreen
     previusScreenName: 
     nextScreenName: 
     editor_turnOn: 0
@@ -7368,7 +7368,7 @@ MonoBehaviour:
     editor_turnOn: 0
     editor_turnOff: 0
   screenData:
-    screenName: 
+    screenName: ChoiceScreen
     previusScreenName: 
     nextScreenName: 
     editor_turnOn: 0
@@ -8444,7 +8444,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4824266465877737440, guid: 93cabc1a3eb61a44abd3c1579432e642, type: 3}
       propertyPath: inicialScreen
-      value: CTA
+      value: IdleScreen
       objectReference: {fileID: 0}
     - target: {fileID: 5365069297989160950, guid: 93cabc1a3eb61a44abd3c1579432e642, type: 3}
       propertyPath: m_Name

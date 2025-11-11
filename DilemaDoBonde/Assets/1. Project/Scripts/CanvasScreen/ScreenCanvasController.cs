@@ -21,32 +21,60 @@ public class ScreenCanvasController : MonoBehaviour
 
     private void OnEnable()
     {
-        // Registra o m�todo CallScreenListner como ouvinte do evento CallScreen
+        Debug.Log("[ScreenCanvasController] OnEnable - Registering screen call listener");
         ScreenManager.CallScreen += OnScreenCall;
-
     }
     private void OnDisable()
     {
-        // Remove o m�todo CallScreenListner como ouvinte do evento CallScreen
+        Debug.Log("[ScreenCanvasController] OnDisable - Unregistering screen call listener");
         ScreenManager.CallScreen -= OnScreenCall;
-
     }
     void Start()
     {
+        Debug.Log("[ScreenCanvasController] Start - Beginning initialization");
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         instance = this;
         
-        // Load dilemma configuration
+        Debug.Log($"[ScreenCanvasController] Configured initial screen: '{inicialScreen}'");
+        
+        CanvasScreen[] allScreens = Object.FindObjectsByType<CanvasScreen>(FindObjectsSortMode.None);
+        Debug.Log($"[ScreenCanvasController] Found {allScreens.Length} CanvasScreen components in scene");
+        
+        bool initialScreenExists = false;
+        foreach (var screen in allScreens)
+        {
+            string screenName = screen.screenData?.screenName ?? "NULL";
+            Debug.Log($"[ScreenCanvasController] Available screen: '{screenName}' on GameObject '{screen.gameObject.name}'");
+            
+            if (screenName == inicialScreen)
+            {
+                initialScreenExists = true;
+            }
+        }
+        
+        if (!initialScreenExists)
+        {
+            Debug.LogError($"[ScreenCanvasController] CRITICAL ERROR - Initial screen '{inicialScreen}' does NOT EXIST in the scene!", this);
+            Debug.LogError($"[ScreenCanvasController] This will cause all screens to be deactivated! Available screens are listed above.", this);
+        }
+        
         string configPath = Path.Combine(Application.streamingAssetsPath, "config.json");
+        Debug.Log($"[ScreenCanvasController] Config path: {configPath}");
         dilemmaConfig = JsonLoader.LoadDilemmaConfig(configPath);
         
         if (dilemmaConfig != null)
         {
-            // Update max inactive time from dilemma config if available
             appConfig.maxInactiveTime = dilemmaConfig.timeoutSeconds;
+            Debug.Log($"[ScreenCanvasController] Config loaded - Timeout: {appConfig.maxInactiveTime}s");
+        }
+        else
+        {
+            Debug.LogWarning("[ScreenCanvasController] DilemmaConfig is NULL - using default timeout");
         }
         
+        Debug.Log($"[ScreenCanvasController] Calling initial screen: '{inicialScreen}'");
         ScreenManager.SetCallScreen(inicialScreen);
+        Debug.Log("[ScreenCanvasController] Start - Initialization complete");
     }
     // Update is called once per frame
     void Update()
@@ -67,15 +95,17 @@ public class ScreenCanvasController : MonoBehaviour
     }
     public void ResetGame()
     {
-        Debug.Log("Tempo de inatividade extrapolado!");
+        Debug.Log($"[ScreenCanvasController] ResetGame - Inactive timeout reached! Timer: {inactiveTimer}s");
         inactiveTimer = 0;
         ScreenManager.CallScreen(inicialScreen);
     }
     public void OnScreenCall(string name)
     {
+        Debug.Log($"[ScreenCanvasController] OnScreenCall - Screen requested: '{name}'");
         inactiveTimer = 0;
         previusScreen = currentScreen;
         currentScreen = name;
+        Debug.Log($"[ScreenCanvasController] Screen transition - Previous: '{previusScreen}', Current: '{currentScreen}'");
     }
     public void NFCInputHandler(string obj)
     {

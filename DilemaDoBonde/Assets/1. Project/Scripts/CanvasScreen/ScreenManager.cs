@@ -11,8 +11,10 @@ public static class ScreenManager
     public static string currentScreenName;
     public static void SetCallScreen(string name)
     {
+        Debug.Log($"[ScreenManager] SetCallScreen called - Screen: '{name}', Listeners: {CallScreen?.GetInvocationList().Length ?? 0}");
         CallScreen?.Invoke(name);
         currentScreenName = name;
+        Debug.Log($"[ScreenManager] Current screen set to: '{currentScreenName}'");
     }
     
     public static string GetCurrentScreenName()

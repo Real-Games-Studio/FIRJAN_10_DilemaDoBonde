@@ -1,0 +1,85 @@
+====================================================================
+INSTRUÇÕES DE DEBUG PARA PROBLEMA DE TELAS NA BUILD
+====================================================================
+
+PROBLEMA IDENTIFICADO:
+----------------------
+As telas desativam na build mas funcionam no Editor. Adicionamos logs
+extensivos para rastrear a sequência de eventos e identificar a causa raiz.
+
+POSSÍVEIS CAUSAS ENCONTRADAS:
+------------------------------
+1. A tela inicial configurada é "CTA" mas essa tela NÃO EXISTE na cena
+2. Quando uma tela inexistente é chamada, TODAS as telas são desativadas
+3. Possível problema de serialização do campo 'screenData' vs 'data'
+
+COMO DEBUGAR:
+-------------
+
+PASSO 1: Adicione o ScreenSystemDebugger na cena
+   - Adicione o componente ScreenSystemDebugger.cs no GameObject
+     "[MUST BE ON SCENE] ScreenCanvasController"
+   - Este script vai logar o estado de todas as telas a cada 2 segundos
+
+PASSO 2: Verifique a configuração da tela inicial
+   - Selecione o GameObject "[MUST BE ON SCENE] ScreenCanvasController"
+   - No Inspector, verifique o campo "Inicial Screen"
+   - DEVE ser um dos seguintes valores:
+     * "IdleScreen" (recomendado)
+     * "DilemmaScreen"
+     * "ChoiceScreen"
+     * "ResultScreen"
+   - NÃO use "CTA" pois essa tela não existe!
+
+PASSO 3: Verifique os screenName de cada tela
+   - Selecione cada tela (IdleScreen, DilemmaScreen, etc.)
+   - No Inspector, verifique o campo "Data > Screen Name"
+   - DEVE estar preenchido e corresponder ao nome usado no código
+
+PASSO 4: Faça uma Build e analise os logs
+   - Build do jogo
+   - Execute a build
+   - Conecte via adb logcat (Android) ou Player.log (PC)
+   - Procure por estas mensagens críticas:
+
+   [ScreenCanvasController] CRITICAL ERROR - Initial screen 'XXX' does NOT EXIST
+   [CanvasScreen] CRITICAL - screenName is NULL or EMPTY
+   
+PASSO 5: Analise a sequência de eventos nos logs
+   Os logs seguirão este padrão:
+   
+   1. [ScreenCanvasController] Start - Beginning initialization
+   2. [ScreenCanvasController] Found X CanvasScreen components
+   3. [ScreenCanvasController] Available screen: 'XXX' on GameObject 'YYY'
+   4. [ScreenCanvasController] Calling initial screen: 'XXX'
+   5. [ScreenManager] SetCallScreen called - Screen: 'XXX'
+   6. [CanvasScreen] 'XXX' CallScreenListner - Requested: 'YYY'
+   7. [CanvasScreen] 'XXX' TurnOn/TurnOff
+   8. [ScreenSystemDebugger] PERIODIC STATE CHECK
+
+INTERPRETANDO OS LOGS:
+-----------------------
+
+SE você ver:
+"[ScreenCanvasController] CRITICAL ERROR - Initial screen 'CTA' does NOT EXIST"
+-> SOLUÇÃO: Mude o campo "Inicial Screen" para "IdleScreen"
+
+SE você ver:
+"[CanvasScreen] CRITICAL - screenName is NULL or EMPTY"
+-> SOLUÇÃO: Preencha o campo "Data > Screen Name" na tela correspondente
+
+SE você ver todas as telas com "TurnOff" mas nenhuma com "TurnOn":
+-> A tela inicial não está sendo encontrada
+-> Verifique se o nome está exatamente igual (case-sensitive)
+
+SE você ver o stack trace no TurnOff:
+-> Identifique qual método está chamando TurnOff indevidamente
+-> Pode ser um script customizado interferindo
+
+LOCALIZAÇÃO DOS ARQUIVOS DE LOG:
+---------------------------------
+Windows: %USERPROFILE%\AppData\LocalLow\<CompanyName>\<ProductName>\Player.log
+Android: adb logcat -s Unity
+Mac: ~/Library/Logs/<CompanyName>/<ProductName>/Player.log
+
+====================================================================

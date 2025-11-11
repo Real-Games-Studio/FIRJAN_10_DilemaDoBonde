@@ -23,6 +23,7 @@ public class DilemmaInputHandler : MonoBehaviour
     
     private float lastHorizontalInput = 0f;
     private bool horizontalInputProcessed = false;
+    private bool verticalInputProcessed = false;
     
     private float currentHoldTime = 0f;
     private bool isHoldingToReset = false;
@@ -32,6 +33,7 @@ public class DilemmaInputHandler : MonoBehaviour
     {
         HandleKeyboardInput();
         HandleHorizontalAxisInput();
+        HandleVerticalAxisInput();
         HandleHoldToReset();
     }
     
@@ -61,6 +63,47 @@ public class DilemmaInputHandler : MonoBehaviour
         }
         
         lastHorizontalInput = horizontalInput;
+    }
+    
+    void HandleVerticalAxisInput()
+    {
+        float verticalInput = Input.GetAxis("Vertical");
+        
+        if (!verticalInputProcessed)
+        {
+            if (verticalInput > 0.5f)
+            {
+                OnVerticalInput(1);
+                verticalInputProcessed = true;
+            }
+        }
+        
+        if (Mathf.Abs(verticalInput) < 0.3f)
+        {
+            verticalInputProcessed = false;
+        }
+    }
+    
+    void OnVerticalInput(int direction)
+    {
+        if (ScreenCanvasController.instance != null)
+        {
+            ScreenCanvasController.instance.inactiveTimer = 0;
+        }
+        
+        if (DilemmaGameController.Instance != null)
+        {
+            string currentScreenName = ScreenManager.GetCurrentScreenName();
+            
+            if (currentScreenName == DilemmaGameController.Instance.idleScreenName)
+            {
+                if (direction == 1)
+                {
+                    Debug.Log("Joystick empurrado para cima - Iniciando jogo");
+                    DilemmaGameController.Instance.OnNumberInput(3);
+                }
+            }
+        }
     }
     
     void OnHorizontalInput(int direction)

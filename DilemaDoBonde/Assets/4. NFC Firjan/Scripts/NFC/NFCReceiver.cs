@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using Lando;
 using UnityEngine.Events;
@@ -38,22 +38,50 @@ namespace _4._NFC_Firjan.Scripts.NFC
 
 		private void OnCardReaderDisconnectedHandler(object sender, CardreaderEventArgs e)
 		{
-			OnNFCReaderDisconected.Invoke();
+			if (_4._NFC_Firjan.Scripts.UnityMainThreadDispatcher.Exists())
+		{
+			_4._NFC_Firjan.Scripts.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+			{
+				OnNFCReaderDisconected.Invoke();
+			});
+		}
 		}
 
 		private void OnCardReaderConnectedHandler(object sender, CardreaderEventArgs e)
 		{
-			OnNFCReaderConnected.Invoke(e.CardreaderName);
+			string readerName = e.CardreaderName;
+		if (_4._NFC_Firjan.Scripts.UnityMainThreadDispatcher.Exists())
+		{
+			_4._NFC_Firjan.Scripts.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+			{
+				OnNFCReaderConnected.Invoke(readerName);
+			});
+		}
 		}
 
 		private void OnCardDisconnectedHandler(object sender, CardreaderEventArgs e)
 		{
-			OnNFCDisconnected.Invoke();
+			if (_4._NFC_Firjan.Scripts.UnityMainThreadDispatcher.Exists())
+		{
+			_4._NFC_Firjan.Scripts.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+			{
+				OnNFCDisconnected.Invoke();
+			});
+		}
 		}
 
 		private void OnCardConnectedHandler(object sender, CardreaderEventArgs e)
 		{
-			OnNFCConnected.Invoke(e.Card.Id,e.CardreaderName);
+			string cardId = e.Card.Id;
+		string readerName = e.CardreaderName;
+		
+		if (_4._NFC_Firjan.Scripts.UnityMainThreadDispatcher.Exists())
+		{
+			_4._NFC_Firjan.Scripts.UnityMainThreadDispatcher.Instance().Enqueue(() =>
+			{
+				OnNFCConnected.Invoke(cardId, readerName);
+			});
+		}
 		}
 
 		private void OnDestroy()

@@ -12,8 +12,8 @@
     },
     {
       "id": "cta_text",
-      "textPt": "O futuro está em suas mãos. Assuma o controle e mostre quais escolhas você faria.",
-      "textEn": "The future is in your hands. Take charge and show the choices you’d make."
+      "textPt": "O futuro está em suas mãos. Assuma o controle e mostre quais escolhas você faria.\n\nPosicione o manche para frente para começar.",
+      "textEn": "The future is in your hands. Take charge and show the choices you’d make.\n\nPull the stick foward to begin"
     },
     {
       "id": "record_text",
@@ -27,8 +27,8 @@
     },
     {
       "id": "restartInstruction",
-      "textPt": "segure o botão para reiniciar",
-      "textEn": "hold the button to restart"
+      "textPt": "segure o manche para frente para reiniciar",
+      "textEn": "hold the stick foward to restart"
     },
     {
       "id": "score1",

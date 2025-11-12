@@ -249,6 +249,11 @@ public class DilemmaInputHandler : MonoBehaviour
             {
                 CancelHoldToReset();
             }
+            
+            if (resetExecuted)
+            {
+                resetExecuted = false;
+            }
         }
     }
     

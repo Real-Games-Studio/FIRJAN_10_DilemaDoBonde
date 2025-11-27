@@ -5,7 +5,7 @@ using TMPro;
 public class DilemmaInputHandler : MonoBehaviour
 {
     [Header("Hold to Reset Settings")]
-    [Tooltip("Tempo em segundos que o botão precisa ser segurado para resetar")]
+    [Tooltip("Tempo em segundos que o joystick precisa ser segurado para cima para resetar")]
     public float holdToResetDuration = 3f;
     
     [Header("Visual Feedback (Optional)")]
@@ -97,7 +97,7 @@ public class DilemmaInputHandler : MonoBehaviour
             
             if (currentScreenName == DilemmaGameController.Instance.idleScreenName)
             {
-                if (direction == 1)
+                if (direction == 1 && !resetExecuted && currentHoldTime < 0.5f)
                 {
                     Debug.Log("Joystick empurrado para cima - Iniciando jogo");
                     DilemmaGameController.Instance.OnNumberInput(3);
@@ -187,17 +187,6 @@ public class DilemmaInputHandler : MonoBehaviour
         {
             OnNumberPressed(4);
         }
-        
-        // Mantém suporte para Fire3, Fire1 e Fire2 para tecla 3
-        // Mas só dispara se for um clique rápido (não um hold)
-        if (Input.GetButtonUp("Fire3") || Input.GetButtonUp("Fire1") || Input.GetButtonUp("Fire2"))
-        {
-            if (!resetExecuted && currentHoldTime < 0.5f)
-            {
-                OnNumberPressed(3);
-                resetExecuted = false;
-            }
-        }
     }
     
     public void OnNumberPressed(int number)
@@ -229,7 +218,8 @@ public class DilemmaInputHandler : MonoBehaviour
     
     void HandleHoldToReset()
     {
-        bool isButtonPressed = Input.GetButton("Fire3") || Input.GetButton("Fire1") || Input.GetButton("Fire2");
+        float verticalInput = Input.GetAxis("Vertical");
+        bool isButtonPressed = verticalInput > 0.5f;
         
         if (isButtonPressed)
         {
@@ -266,7 +256,7 @@ public class DilemmaInputHandler : MonoBehaviour
         if (resetInstructionMessage != null)
             resetInstructionMessage.SetActive(false);
         
-        Debug.Log("<color=yellow>[Hold To Reset]</color> Começou a segurar o botão para resetar...");
+        Debug.Log("<color=yellow>[Hold To Reset]</color> Começou a segurar o joystick para cima para resetar...");
     }
     
     void UpdateHoldToReset()
@@ -284,7 +274,7 @@ public class DilemmaInputHandler : MonoBehaviour
     
     void CancelHoldToReset()
     {
-        Debug.Log("<color=yellow>[Hold To Reset]</color> Botão solto antes de completar - resetando progresso");
+        Debug.Log("<color=yellow>[Hold To Reset]</color> Joystick solto antes de completar - resetando progresso");
         isHoldingToReset = false;
         resetExecuted = false;
         ResetVisuals();
@@ -292,7 +282,7 @@ public class DilemmaInputHandler : MonoBehaviour
     
     void ExecuteReset()
     {
-        Debug.Log("<color=green>[Hold To Reset]</color> Botão segurado por " + holdToResetDuration + "s - REINICIANDO JOGO!");
+        Debug.Log("<color=green>[Hold To Reset]</color> Joystick segurado para cima por " + holdToResetDuration + "s - REINICIANDO JOGO!");
         
         resetExecuted = true;
         isHoldingToReset = false;
